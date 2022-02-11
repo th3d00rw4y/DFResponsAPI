@@ -28,9 +28,8 @@ This CMDlet will enable a user in the DFRespons system based on that the user al
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Enable-DFResponsUser -SamAccountName DEAFER01
-```
 
 Example response:
     id           : 10
@@ -40,11 +39,10 @@ Example response:
     email        : dean.fertita@greatmusicians.com
     organization : Queens of the Stoneage
     disabled     : False
-
+```
 ### EXAMPLE 2
-```
+```powershell
 Enable-DFResponsUser -Id 14
-```
 
 Example response:
     id           : 14
@@ -54,11 +52,10 @@ Example response:
     email        : michael.schuman@greatmusicians.com
     organization : Queens of the Stoneage...
     disabled     : False
-
+```
 ### EXAMPLE 3
-```
+```powershell
 Get-ADUser -Identity BREHIN01 | Enable-DFResponsUser
-```
 
 This example will fetch an AD account and pipe it to Enable-DFResponsUser
 Example response:
@@ -69,7 +66,7 @@ Example response:
     email        : brent.hinds@greatmusicians.com
     organization : Mastodon
     disabled     : False
-
+```
 ## PARAMETERS
 
 ### -Id
