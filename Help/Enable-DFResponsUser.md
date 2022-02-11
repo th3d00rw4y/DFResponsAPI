@@ -58,7 +58,9 @@ Example response:
 Get-ADUser -Identity BREHIN01 | Enable-DFResponsUser
 
 This example will fetch an AD account and pipe it to Enable-DFResponsUser
+```
 Example response:
+```javascript
     id           : 11
     name         : Brent Hinds
     username     : BREHIN01
