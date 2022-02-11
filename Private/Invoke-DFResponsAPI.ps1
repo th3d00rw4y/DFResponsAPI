@@ -58,7 +58,7 @@ function Invoke-DFResponsAPI {
     process {
 
         try {
-            # $Response = Invoke-RestMethod @InvokeParams -ErrorAction Stop
+            $Response = Invoke-RestMethod @InvokeParams -ErrorAction Stop
         }
         catch {
             # $_.Exception.Message
@@ -69,7 +69,7 @@ function Invoke-DFResponsAPI {
     }
     
     end {
-        return $InvokeParams
-        # return $Response
+        # return $InvokeParams
+        return $Response
     }
 }
