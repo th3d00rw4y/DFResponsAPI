@@ -58,7 +58,7 @@
                     Get-ADUser -Identity $GroupMember.SamAccountName -Properties $ADProperties | ConvertFrom-ADObject -ReturnType PSCustomObject
                 }
 
-                $CompareProperties = @(
+                <# $CompareProperties = @(
                     'name',
                     'username',
                     'title',
@@ -66,7 +66,7 @@
                     'organization',
                     'phone',
                     'cellphone'
-                )
+                ) #>
 
                 <# $Updates = foreach ($User in $ADUsersFormatted) {
                     Compare-Object -ReferenceObject $User -DifferenceObject $($CurrentDFResponsUsers | Where-Object {$_.username -eq $User.Username}) -Compact
