@@ -33,6 +33,7 @@ Enable-DFResponsUser -SamAccountName DEAFER01
 ```
 Example response:
 ```yaml
+{
     id           : 10
     name         : Dean Fertita
     username     : DEAFER01
@@ -40,6 +41,7 @@ Example response:
     email        : dean.fertita@greatmusicians.com
     organization : Queens of the Stoneage
     disabled     : False
+}
 ```
 ### EXAMPLE 2
 ```powershell
@@ -47,6 +49,7 @@ Enable-DFResponsUser -Id 14
 ```
 Example response:
 ```yaml
+{
     id           : 14
     name         : Michael Schuman
     username     : MICSCH01
@@ -54,12 +57,12 @@ Example response:
     email        : michael.schuman@greatmusicians.com
     organization : Queens of the Stoneage...
     disabled     : False
+}
 ```
 ### EXAMPLE 3
 ```powershell
+# This example will fetch an AD account and pipe it to Enable-DFResponsUser
 Get-ADUser -Identity BREHIN01 | Enable-DFResponsUser
-
-This example will fetch an AD account and pipe it to Enable-DFResponsUser
 ```
 Example response:
 ```yaml
