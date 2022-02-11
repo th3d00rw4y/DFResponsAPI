@@ -4,6 +4,9 @@ $SettingsFileExists = $false
 if (-not (Test-Path $DFRCheckSettingsFilePath)) {
     Write-Warning -Message "No settings file found. Please configure the module by running Initialize-SettingsFile provided with your information."
 }
+elseif (-not (Test-Path -Path $(Get-Content -Path $DFRCheckSettingsFilePath))) {
+    Write-Warning -Message "No settings file found. Please configure the module by running Initialize-SettingsFile provided with your information."
+}
 else {
     $Script:Settings     = Import-Csv -Path (Get-Content -Path $DFRCheckSettingsFilePath)
     $Script:ADProperties = @($Settings.PSObject.Properties | Where-Object {($_.Name -notlike '*Path') -and ($_.Name -ne 'Server')} | Select-Object -ExpandProperty Value)

@@ -1,14 +1,16 @@
-function Compare-Object {
+function Compare-Object{
     <#
     .SYNOPSIS
         Proxy function for the built-in Compare-Object cmdlet. This version also works with arrays,
         arrays of PSCustomObjects and custom classes it iterates over nested objects and properties to compare their values
         and also support compact output. See description and paramenter help for more.
+
     .DESCRIPTION
         The Compare-Object cmdlet compares two sets
         of objects. One set of objects is the
         "reference set," and the other set is the
         "difference set."
+
         The result of the comparison indicates
         whether a property value appeared only in the
         object from the reference set (indicated by
@@ -19,10 +21,13 @@ function Compare-Object {
         == symbol).
         Or compact output (through Compact switch) with 
         'Property', 'ReferenceValue', 'DifferenceValue' in one row.
+
     .PARAMETER ReferenceObject
         Specifies an array of objects used as a reference for comparison.
+
     .PARAMETER DifferenceObject
         Specifies an array of objects used as a difference for comparison.
+
     .PARAMETER SyncWindow
         Specifies the number of adjacent objects that
         this cmdlet inspects while looking for a
@@ -32,32 +37,42 @@ function Compare-Object {
         collection. The default value is
         [Int32]::MaxValue, which means that this
         cmdlet examines the entire object collection.
+
     .PARAMETER Property
         Specifies an array of properties of the reference and difference objects to compare.
+
     .PARAMETER MaxDepth
         Specifies the maximum recursion depth. Defaults to -1 for recursion over all input objects.
+
     .PARAMETER __Depth
         Internal parameter used to carry forward depth information across recursive calls.
+
     .PARAMETER __Property
         Internal parameter used to carry property name information across recursive calls.
+
     .PARAMETER ExludeDifferent
         Indicates that this cmdlet displays only the
         characteristics of compared objects that are
         equal.
+
     .PARAMETER IncludeEqual
         Indicates that this cmdlet displays
         characteristics of compared objects that are
         equal. By default, only characteristics that
         differ between the reference and difference
         objects are displayed.
+
     .PARAMETER PassThru
         Returns an object representing the item with
         which you are working. By default, this
         cmdlet does not generate any output.
+
     .PARAMETER Culture
         Specifies the culture to use for comparisons.
+
     .PARAMETER CaseSensitive
         Indicates that comparisons should be case-sensitive.
+
     .PARAMETER Compact
         Switch parameter, if specified puts output into 'Property', 'ReferenceValue', 'DifferenceValue' form instead of long form.
 	.EXAMPLE
@@ -66,20 +81,24 @@ function Compare-Object {
 			[String]$LastName
 			[String[]]$Age
 			[Person[]]$Parents
+
 			Person($Name, $LastName, $Age) {
 				$this.Name = $Name
 				$this.LastName = $LastName
 				$this.Age = $Age
 			}
 		}
+
 		$psmith = [Person]::new('Paul', 'Smith', (46, 66, 77))
 		$msmith = [Person]::new('Mary', 'Smith', 35)
 		$nsmith = [Person]::new('Nigel', 'Smith', 11)
 		$nsmith.Parents = $psmith, $msmith
+
 		$pdoe = [Person]::new('Jon', 'Doe', 46)
 		$ldoe = [Person]::new('Mary', 'Doe', 51)
 		$adoe = [Person]::new('Aidan', 'Doe', 23)
 		$adoe.Parents = $pdoe, $ldoe
+
 		Compare-Object $nsmith $adoe -IncludeEqual
     .EXAMPLE
         #create two custom objects
@@ -87,6 +106,7 @@ function Compare-Object {
         $two = [PSCustomObject]@{Name='Paul';Age=23;Colors='blue','yellow','green'}
         #compare them with compact output including equal property values
         Compare-Object $one $two -Compact -IncludeEqual
+
     .LINK
         https://powershellone.wordpress.com/2021/03/16/extending-powershells-compare-object-to-handle-custom-classes-and-arrays/
     #>

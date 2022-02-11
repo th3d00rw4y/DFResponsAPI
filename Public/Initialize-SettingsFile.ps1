@@ -71,7 +71,7 @@
         # ADProperty holding information about user's email address
         [Parameter()]
         [string]
-        $Mail = "Mail",
+        $Email = "Mail",
 
         # ADProperty holding information on phone number
         [Parameter()]
