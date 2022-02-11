@@ -28,7 +28,7 @@ This CMDet will send a PATCH request to the API disabling the user provided with
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 # This example will disable a user in DFRespons based on the id.
 
 
@@ -44,7 +44,7 @@ Example response:
     disabled     : True
 ```
 ### EXAMPLE 2
-```
+```powershell
 # This example will take an user object retreived from AD, contaning the property SamAccountName and pipe it to the Disable-DFResponsUser CMDlet.
 
 
@@ -60,7 +60,7 @@ Example response:
     disabled     : True
 ```
 ### EXAMPLE 3
-```
+```powershell
 # This example will disable a user in DFRespons based on the username.
 
 
@@ -76,7 +76,7 @@ Example response:
     disabled     : True
 ```
 ### EXAMPLE 4
-```
+```powershell
 # Here we create an array that contains a number of user Id's
 
 
