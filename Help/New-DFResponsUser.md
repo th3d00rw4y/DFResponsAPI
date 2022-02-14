@@ -35,11 +35,9 @@ Works with either providing data manually to parameter set \`ManualSet\` or by p
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-In this example we manually build our user object and then create the user based on the parameters used.
-```
-
-Note that all four parameters are mandatory.
+```powershell
+# In this example we manually build our user object and then create the user based on the parameters used.
+# Note that all four parameters are mandatory.
 $DFResponsUserParams = @{
     Surname         = "Dailor"
     GivenName       = "Brann"
@@ -48,30 +46,36 @@ $DFResponsUserParams = @{
 
 }
 New-DFResponsUser @DFResponsUserParams
+```
 Example response:
+```yaml
+{
     id           : 17
     name         : Brann Dailor
     username     : BRANDAI01
-    email        : alain.johannes@greatmusicians.com
+    email        : brann.dailor@greatmusicians.com
+    password     : <Random generated password>
     disabled     : False
-
+}
+```
 ### EXAMPLE 2
-```
-This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
-```
-
+```powershell
+# This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
 $ADProperties = @(
     'Title'
     'Organization',
-    'ExtensionAttribute5' # \<- let's pretend that this AD attribute hold information about our user's work phone number.
-    'TelephoneNumber' # \<- This AD attribute in this case holds information about our user's cellphone number
+    'ExtensionAttribute5' # Let's pretend that this AD attribute hold information about our user's work phone number.
+    'TelephoneNumber' # This AD attribute in this case holds information about our user's cellphone number
     'SamAccountName'
     'GivenName'
     'Surname'
     'Mail'
 )
 New-DFResponsUser -OnlySamAccountName BRADAI01 -ADProperties @ADProperties
+```
 Example response:
+```yaml
+{
     id           : 17
     name         : Brann Dailor
     username     : BRANDAI01
@@ -81,20 +85,23 @@ Example response:
     phone        : 09087
     cellphone    : 0986785423
     disabled     : False
-
+}
+```
 ### EXAMPLE 3
-```
-In this example will will get a user from the AD and pipe it to the CMDlet for creating a new DFRespons user.
-```
-
+```powershell
+# In this example will will get a user from the AD and pipe it to the CMDlet for creating a new DFRespons user.
 Get-ADUser -Identity BRANDAI01 | New-DFResponsUser
+```
 Example response:
+```yaml
+{
     id           : 17
     name         : Brann Dailor
     username     : BRANDAI01
-    email        : alain.johannes@greatmusicians.com
+    email        : brann.dailor@greatmusicians.com
     disabled     : False
-
+}
+```
 ## PARAMETERS
 
 ### -Surname

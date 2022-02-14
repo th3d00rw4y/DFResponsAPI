@@ -6,7 +6,7 @@
 
     .DESCRIPTION
     This CMDlet will build a CSV file with information on how to connect to your organizations instance of DFRespons.
-    The ADProperty parameters are there for you to provide your organizations property names. e.g: In organization A, cellphone number can be found in `extensionAttribute6´  and organization is found under `physicalDeliveryOfficeName´
+    The ADProperty parameters are there for you to provide your organizations property names. e.g: In organization A, cellphone number can be found in extensionAttribute6  and organization is found under physicalDeliveryOfficeName
     You will also be prompted to select path to 2 different credential files. If you haven't generated these credential files, please refer to the module documentation.
     Lastly you will be prompted to select a folder where the settings file will be stored.
 
@@ -14,31 +14,56 @@
     Your organizations API instance of DFRespons. e.g: https://DomainName.dfrespons.se/api
 
     .PARAMETER SamAccountName
-    What property value in AD you want to refer to as the DFRespons `UserName´
+    What property value in AD you want to refer to as the DFRespons UserName
 
     .PARAMETER GivenName
-    What property value in AD you want to refer to as the DFRespons `Name´ This parameter defaults to AD property `GivenName´. It will also work in conjunction with the `Surname´ parameter to build the DFRespons name as follows: `$GivenName $Surname´
+    What property value in AD you want to refer to as the DFRespons Name This parameter defaults to AD property GivenName. It will also work in conjunction with the Surname parameter to build the DFRespons name as follows: $GivenName $Surname
 
     .PARAMETER Surname
-    What property value in AD you want to refer to as the DFRespons `Name´ This parameter defaults to AD property `Surname´. It will also work in conjunction with the `GivenName´ parameter to build the DFRespons name as follows: `$GivenName $Surname´
+    What property value in AD you want to refer to as the DFRespons Name This parameter defaults to AD property Surname. It will also work in conjunction with the GivenName parameter to build the DFRespons name as follows: $GivenName $Surname
 
-    .PARAMETER Mail
-    What property value in AD you want to refer to as the DFRespons `Mail´. Defaults to AD property `Mail´
+    .PARAMETER Email
+    What property value in AD you want to refer to as the DFRespons Mail. Defaults to AD property Mail
 
     .PARAMETER Phone
-    What property value in AD you want to refer to as the DFRespons `Phone´
+    What property value in AD you want to refer to as the DFRespons Phone
 
     .PARAMETER CellPhone
-    What property value in AD you want to refer to as the DFRespons `CellPhone´
+    What property value in AD you want to refer to as the DFRespons CellPhone
 
     .PARAMETER Title
-    What property value in AD you want to refer to as the DFRespons `Title´ Defaults to AD property `Title´
+    What property value in AD you want to refer to as the DFRespons Title Defaults to AD property Title
 
     .PARAMETER Organization
-    What property value in AD you want to refer to as the DFRespons `Organization´ Defaults to `physicalDeliveryOfficeName´
+    What property value in AD you want to refer to as the DFRespons Organization Defaults to physicalDeliveryOfficeName
 
     .EXAMPLE
-    Initialize-SettingsFile -SamAccountName 'UserPrincipalName' -
+    # In this example we'll use UserPrincipalName as the SamAccountName/Username and exclude Phone, CellPhone, Title and Organization.
+    # In this example we assume that GivenName, Surname and Email all points to the default values.
+    Initialize-SettingsFile -Server "https://MyDomain.dfrespons.se/api" -SamAccountName UserPrincipalName
+
+    # This will give you three different prompts. First one you will have to select the folder where the CSV file are to be stored.
+    # Second prompt will ask for the encrypted credential file holding you credentials for Basic Authentication
+    # Third prompt you select encrypted credential file with the API key.
+
+    .EXAMPLE
+    # Here we splat all of the parameters to feed the DFRespons system with full user information.
+    $SettingParams = @{
+        Server         = "https://MyDomain.dfrespons.se/api"
+        SamAccountName = "SamAccountName"
+        GivenName      = "GivenName"
+        Surname        = "Surname"
+        Email          = "Mail"
+        Phone          = "ExtensionAttribute3"
+        CellPhone      = "TelephoneNumber"
+        Title          = "Title"
+        Organization   = "PhysicalDeliveryOfficeName"
+    }
+    Initialize-SettingsFile @SettingParams
+
+    # This will give you three different prompts. First one you will have to select the folder where the CSV file are to be stored.
+    # Second prompt will ask for the encrypted credential file holding you credentials for Basic Authentication
+    # Third prompt you select encrypted credential file with the API key.
 
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun

@@ -40,48 +40,21 @@
         switch ($ADGroupExists) {
             True  {
 
-                <# $ADProperties = @(
-                    'Surname',
-                    'GivenName',
-                    'SamAccountName',
-                    'Title',
-                    'Mail',
-                    'PhysicalDeliveryOfficeName',
-                    'extensionAttribute5',
-                    'extensionAttribute6',
-                    'telephonenumber'
-                ) #>
-
                 $ADGroupMembers = Get-ADGroupMember -Identity $ADGroup
 
                 $ADUsersFormatted = foreach ($GroupMember in $ADGroupMembers) {
                     Get-ADUser -Identity $GroupMember.SamAccountName -Properties $ADProperties | ConvertFrom-ADObject -ReturnType PSCustomObject
                 }
 
-                <# $CompareProperties = @(
-                    'name',
-                    'username',
-                    'title',
-                    'email',
-                    'organization',
-                    'phone',
-                    'cellphone'
-                ) #>
-
-                <# $Updates = foreach ($User in $ADUsersFormatted) {
-                    Compare-Object -ReferenceObject $User -DifferenceObject $($CurrentDFResponsUsers | Where-Object {$_.username -eq $User.Username}) -Compact
-                } #>
-
                 $UsersToUpdate = foreach ($item in $ADUsersFormatted) {
 
                     $TMP = $CurrentDFResponsUsers | Where-Object {$_.username -eq $item.username}
 
                     try {
-                        # $Compare = Compare-Object -ReferenceObject $TMP -DifferenceObject $item -Property $CompareProperties -Compact -ErrorAction SilentlyContinue
                         $Compare = Compare-Object -ReferenceObject $item -DifferenceObject $TMP -Compact -ErrorAction SilentlyContinue
                     }
                     catch {
-                        # Write-Error $_.Exception.Message
+                        Write-Error $_.Exception.Message
                     }
 
                     if ($Compare) {
@@ -100,7 +73,6 @@
                             }
                         }
 
-                        
                         if ($TempHash | get-member | Where-Object {$_.MemberType -contains 'NoteProperty'}) {
 
                             foreach ($Property in ($TempHash | get-member | Where-Object {$_.MemberType -contains 'NoteProperty'})) {
@@ -122,7 +94,7 @@
                     $UserCompare = Compare-Object -ReferenceObject $CurrentDFResponsUsers.username -DifferenceObject $ADUsersFormatted.Username -IncludeEqual -ErrorAction SilentlyContinue | Where-Object {$_.InputObject -notin $ExcludedAccounts}
                 }
                 catch {
-                    #
+                    Write-Error $_.Exception.Message
                 }
 
                 if ($UserCompare) {
