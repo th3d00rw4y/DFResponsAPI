@@ -5,7 +5,7 @@
     Create a new user in DFRespons
 
     .DESCRIPTION
-    This CMDlet will let you create a new user in DFRespons. Works with either providing data manually to parameter set `ManualSet` or by piping an ADObject to the CMDlet.
+    This CMDlet will let you create a new user in DFRespons. Works with either providing data manually to parameter set ManualSet or by piping an ADObject to the CMDlet.
 
     .PARAMETER Surname
     Lastname of the user to be created - Mandatory!
@@ -33,13 +33,9 @@
     Using this parameter will leverage the ActiveDirectory module and fetch information on the user from your AD.
     Can be used in conjunction with the ADProperties parameter.
 
-    .PARAMETER ADProperties
-    Provide what AD properties you want to pass along with the OnlySamAccountName parameter.
-    Recommended ones are the ones holding information on your users title, phone, cellphone and organization.
-
     .EXAMPLE
-    In this example we manually build our user object and then create the user based on the parameters used.
-    Note that all four parameters are mandatory.
+    # In this example we manually build our user object and then create the user based on the parameters used.
+    # Note that all four parameters are mandatory.
     $DFResponsUserParams = @{
         Surname         = "Dailor"
         GivenName       = "Brann"
@@ -52,22 +48,12 @@
         id           : 17
         name         : Brann Dailor
         username     : BRANDAI01
-        email        : alain.johannes@greatmusicians.com
+        email        : brann.dailor@greatmusicians.com
         disabled     : False
     
     .EXAMPLE
-    This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
-    $ADProperties = @(
-        'Title'
-        'Organization',
-        'ExtensionAttribute5' # <- let's pretend that this AD attribute hold information about our user's work phone number.
-        'TelephoneNumber' # <- This AD attribute in this case holds information about our user's cellphone number
-        'SamAccountName'
-        'GivenName'
-        'Surname'
-        'Mail'
-    )
-    New-DFResponsUser -OnlySamAccountName BRADAI01 -ADProperties @ADProperties
+    # This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
+    New-DFResponsUser -OnlySamAccountName BRADAI01
     Example response:
         id           : 17
         name         : Brann Dailor
@@ -86,7 +72,7 @@
         id           : 17
         name         : Brann Dailor
         username     : BRANDAI01
-        email        : alain.johannes@greatmusicians.com
+        email        : brann.dailor@greatmusicians.com
         disabled     : False
 
     .NOTES
@@ -167,24 +153,6 @@
         [ValidateScript({Get-ADUser $_})]
         [string]
         $OnlySamAccountName
-
-        <# # Set of properties to be used with the AD request
-        [Parameter(
-            Mandatory = $true,
-            ParameterSetName = 'OnlySamAccountName'
-        )]
-        [ValidateSet(
-            'GivenName',
-            'Surname',
-            'Mail',
-            'Title',
-            'TelephoneNumber',
-            'extensionAttribute5',
-            'extensionAttribute6',
-            'PhysicalDeliveryOfficeName'
-        )]
-        [string[]]
-        $ADProperties #>
     )
     
     begin {
@@ -193,98 +161,38 @@
     
     process {
 
+        #region Formatting the payload
         $UsedParameters = switch ($PSCmdlet.ParameterSetName) {
 
             ManualSet {
                 Format-UsedParameter -SetName ManualSet -InputObject $Parameters
             }
             ObjectSet {
-                # $UsedParameters = Format-UsedParameter -SetName ObjectSet -InputObject $ADObject
                 ConvertFrom-ADObject -ADObject $ADObject
             }
             OnlySamAccountName {
                 $ADObject = Get-ADUser -Identity $OnlySamAccountName -Properties $ADProperties
-                #$UsedParameters = Format-UsedParameter -SetName OnlySamAccountName -InputObject $ADObject
                 ConvertFrom-ADObject -ADObject $ADObject
             }
         }
+        #endregion Formatting the payload
 
-        <# switch ($PSCmdlet.ParameterSetName) {
-            ManualSet {
-
-                $UserObject = @{}
-
-                $FullName = "$($UsedParameters | Where-Object {$_.Name -eq 'GivenName'} | Select-Object -ExpandProperty Value) $($UsedParameters | Where-Object {$_.Name -eq 'Surname'} | Select-Object -ExpandProperty Value)"
-
-                <# foreach ($Parameter in $UsedParameters) {
-                    if (-not ($Parameter.Name -eq 'GivenName') -or -not ($Parameter.Name -eq 'Surname')) {
-                        $UserObject.Add("$($Parameter.Name)","$($Parameter.Value)")
-                    }
-                    else {
-                        $UserObject.Add("Name","$FullName")
-                    }
-                    
-                    # $($Parameter.Name) = $Parameter.Value
-                } #>
-                    
-                    
-
-                <# $UserObject = [PSCustomObject][ordered]@{
-                    name      = "$($GivenName) $($Surname)"
-                    username  = $SamAccountName
-                    email     = $Mail
-                    title     = $Title
-                    cellphone = $Cellphone
-
-                }
-            }
-            ObjectSet {
-                
-                $UserObject = [PSCustomObject][ordered]@{
-                    name      = "$($InputObject.GivenName) $($InputObject.Surname)"
-                    username  = $InputObject.SamAccountName
-                    email     = $InputObject.Mail
-                    title     = $InputObject.Title
-                    cellphone = $InputObject.Cellphone
-                }
-            }
-            OnlySamAccountName {
-                
-                $Properties = @(
-                    "Surname"
-                    "GivenName"
-                    "SamAccountName"
-                    "Mail"
-                    "Title"
-                    "TelephoneNumber"
-                )
-
-                $ADObject = Get-ADUser $OnlySamAccountName -Properties $Properties | Select-Object $Properties
-
-                $UserObject = [ordered]@{
-                    Name      = "$($ADObject.GivenName) $($ADObject.Surname)"
-                    UserName  = $ADObject.SamAccountName
-                    Email     = $ADObject.Mail
-                    Title     = $ADObject.Title
-                    CellPhone = $ADObject.TelephoneNumber
-                }
-            }
-        } #>
-
+        # Getting the request call parameters
         $RequestParams = Format-APICall -Property CreateUser -InputObject $UsedParameters
         
+        # Splatting the parameters for the request
         $InvokeParams = @{
             RequestString = $RequestParams.RequestString
             Method        = $RequestParams.Method
             Body          = $RequestParams.Body
         }
 
+        # Sending the payload to Invoke-DFResponsAPI
         $Response = Invoke-DFResponsAPI @InvokeParams
     }
     
     end {
         return $Response
-        # return $InvokeParams.Body
     }
 }
 # End function.

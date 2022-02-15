@@ -120,26 +120,38 @@
     )
     
     begin {
+        # Creating variable to store everything in.
         $SettingsTable = [PSCustomObject]@{}
+
+        # Creates a open folder dialog for you to pick a location for the CSV file.
         $SettingsFilePath = Get-FilePath -Type Settings
     }
     
     process {
+        # Creates a open file dialog for you to choose the credential file holding basic authentication information
         $SettingsTable | Add-Member -MemberType NoteProperty -Name "BASecretPath" -Value $(Get-FilePath -Type BASecret | Select-Object -ExpandProperty BASecret)
+
+        # Creates a open file dialog for you to choose the credential file holding your API key.
         $SettingsTable | Add-Member -MemberType NoteProperty -Name "APIKeyPath" -Value $(Get-FilePath -Type APIKey | Select-Object -ExpandProperty APIkey)
 
+        #region Parameter used
         $CmdName = $MyInvocation.InvocationName
         $ParamList = (Get-Command -Name $CmdName).Parameters
+
         foreach ($Key in $ParamList.Keys) {
             $Value = (Get-Variable $Key -ErrorAction SilentlyContinue).Value
             if ($Value -or $Value -eq 0) {
                 $SettingsTable | Add-Member -MemberType NoteProperty -Name $Key -Value $Value
             }
         }
+        #endregion Parameter used
     }
     
     end {
+        # Writing the CSV file
         $SettingsTable | ConvertTo-Csv -NoTypeInformation | Set-Content -Path $SettingsFilePath.Settings
+
+        # Writing a checkfile for the module to remember what location the settings file where stored.
         $SettingsFilePath.Settings | Out-File -LiteralPath $DFRCheckSettingsFilePath
         
         Write-Host "Settings file saved to $($SettingsFilePath.Settings):"

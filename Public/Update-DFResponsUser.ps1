@@ -1,43 +1,69 @@
 ﻿function Update-DFResponsUser {
     <#
     .SYNOPSIS
-    Short description
+    Updates a DFRespons user
     
     .DESCRIPTION
-    Long description
+    This CMDlet will let you update a user within DFRespons.
     
     .PARAMETER SamAccountName
-    Parameter description
+    SamAccountName/Username of the user to be updated
     
     .PARAMETER Id
-    Parameter description
+    Id of the user to be updated
     
     .PARAMETER EMail
-    Parameter description
+    Updates the email for a user
     
     .PARAMETER Title
-    Parameter description
+    Updates the title of a user
     
     .PARAMETER Phone
-    Parameter description
+    Updates the phone number of a user
     
     .PARAMETER CellPhone
-    Parameter description
+    Updates the cellphone number of a user
     
     .PARAMETER Organization
-    Parameter description
+    Updates the organization of a user
     
     .PARAMETER ADObject
-    Parameter description
+    AD object of a user. Each of the properties in the AD object that match what you set as property identifiers in your settings file will be updated
     
     .PARAMETER OnlySamAccountName
-    Parameter description
+    Update a user based on the users AD SamAccountName. Will utilize the property identifiers that you set in your settings file and update the user in DFRespons
     
     .EXAMPLE
-    An example
+    # This example will update a user in DFRespons with the following properties: title, cellphone and organization
+    Update-DFResponsUser -SamAccountName BREHIN01 -Title "Singer/Guitarist" -CellPhone "098765453421" -Organization "Mastodon"
+    Example response:
+    {
+        id           : 11
+        name         : Brent Hinds
+        username     : BREHIN01
+        title        : Guitarist/Singer
+        email        : brent.hinds@greatmusicians.com
+        cellphone    : 098765453421
+        organization : Mastodon
+    }
+
+    .EXAMPLE
+    # This example will update a user in DFRespons based only on the SamAccountName
+    Update-DFResponsUser -OnlySamAccountName BREHIN01
+    # Again, AD properties are determined by what you provided to your settings file when running Initialize-SettingsFile
+    Example response:
+    {
+        id           : 11
+        name         : Brent Hinds
+        username     : BREHIN01
+        title        : Guitarist/Singer
+        email        : brent.hinds@greatmusicians.com
+        cellphone    : 098765453421
+        organization : Mastodon
+    }
     
     .NOTES
-    General notes
+    Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>
     [CmdletBinding()]
     
@@ -128,16 +154,6 @@
             ParameterSetName  = 'ObjectSet',
             ValueFromPipeline = $true
         )]
-        <# [Parameter(
-            Mandatory         = $true,
-            ParameterSetName  = 'SamAccountSet',
-            ValueFromPipeline = $true
-        )]
-        [Parameter(
-            Mandatory         = $true,
-            ParameterSetName  = 'IdSet',
-            ValueFromPipeline = $true
-        )] #>
         [ValidateScript({Get-ADUser $_.SamAccountName})]
         [Microsoft.ActiveDirectory.Management.ADAccount]
         $ADObject,
@@ -150,23 +166,6 @@
         [ValidateScript({Get-ADUser $_})]
         [string]
         $OnlySamAccountName
-
-        <# # Set of properties to be used with the AD request
-        [Parameter(
-            Mandatory = $true,
-            ParameterSetName = 'OnlySamAccountName'
-        )]
-        [ValidateSet(
-            'SamAccountName',
-            'GivenName',
-            'Surname',
-            'Mail',
-            'Title',
-            'TelephoneNumber',
-            'PhysicalDeliveryOfficeName'
-        )]
-        [string[]]
-        $ADProperties #>
     )
     
     begin {
