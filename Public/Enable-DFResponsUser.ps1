@@ -16,6 +16,7 @@
     .EXAMPLE
     Enable-DFResponsUser -SamAccountName DEAFER01
     Example response:
+    {
         id           : 10
         name         : Dean Fertita
         username     : DEAFER01
@@ -23,10 +24,12 @@
         email        : dean.fertita@greatmusicians.com
         organization : Queens of the Stoneage
         disabled     : False
-    
+    }
+
     .EXAMPLE
     Enable-DFResponsUser -Id 14
     Example response:
+    {
         id           : 14
         name         : Michael Schuman
         username     : MICSCH01
@@ -34,11 +37,13 @@
         email        : michael.schuman@greatmusicians.com
         organization : Queens of the Stoneage...
         disabled     : False
-
+    }
+    
     .EXAMPLE
     Get-ADUser -Identity BREHIN01 | Enable-DFResponsUser
     This example will fetch an AD account and pipe it to Enable-DFResponsUser
     Example response:
+    {
         id           : 11
         name         : Brent Hinds
         username     : BREHIN01
@@ -46,6 +51,7 @@
         email        : brent.hinds@greatmusicians.com
         organization : Mastodon
         disabled     : False
+    }
 
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun

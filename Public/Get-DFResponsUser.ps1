@@ -20,8 +20,9 @@
     Sets the maximum number of user objects to be returned.
     
     .EXAMPLE
-    Get-DFResponsUser -SamAccountName User01
+    Get-DFResponsUser -SamAccountName JIMPAG01
     Example respone:
+    {
         id           : 45
         name         : Jimmy Page
         username     : JIMPAG01
@@ -31,11 +32,13 @@
         phone        : 12345
         cellPhone    : 1234567890
         disabled     : False
-    
+    }
+
     .Example
+    # This example fetches an user from the active directory and pipes the AD object into the Get-DFResponsUser
     Get-ADUser JOSHOM01 | Get-DFResponsUser
-    This example fetches an user from the active directory and pipes the AD object into the Get-DFResponsUser
     Example respone:
+    {
         id           : 01
         name         : Joshua Homme
         username     : JOSHOM01
@@ -45,10 +48,12 @@
         phone        : 54321
         cellPhone    : 0987654321
         disabled     : True
+    }
     
     .EXAMPLE
     Get-DFResponsUser -Id 02
     Example respons:
+    {
         id           : 02
         name         : Troy Van Leeuwen
         username     : TROLEE01
@@ -56,7 +61,8 @@
         email        : troy.van.leeuwen@greatguitarists.com
         organization : Queens of the Stoneage
         disabled     : True
-    
+    }
+
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>

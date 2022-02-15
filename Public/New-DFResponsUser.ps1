@@ -45,16 +45,19 @@
     }
     New-DFResponsUser @DFResponsUserParams
     Example response:
+    {
         id           : 17
         name         : Brann Dailor
         username     : BRANDAI01
         email        : brann.dailor@greatmusicians.com
         disabled     : False
-    
+    }
+
     .EXAMPLE
     # This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
     New-DFResponsUser -OnlySamAccountName BRADAI01
     Example response:
+    {
         id           : 17
         name         : Brann Dailor
         username     : BRANDAI01
@@ -64,17 +67,20 @@
         phone        : 09087
         cellphone    : 0986785423
         disabled     : False
+    }
 
     .EXAMPLE
     In this example will will get a user from the AD and pipe it to the CMDlet for creating a new DFRespons user.
     Get-ADUser -Identity BRANDAI01 | New-DFResponsUser
     Example response:
+    {
         id           : 17
         name         : Brann Dailor
         username     : BRANDAI01
         email        : brann.dailor@greatmusicians.com
         disabled     : False
-
+    }
+    
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>

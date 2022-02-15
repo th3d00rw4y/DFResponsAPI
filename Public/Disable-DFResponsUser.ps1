@@ -30,7 +30,8 @@
     # This example will take an user object retreived from AD, contaning the property SamAccountName and pipe it to the Disable-DFResponsUser CMDlet.
     $ADObject | Disable-DFResponsUser
 
-    Example response: 
+    Example response:
+    {
         id           : 34
         name         : Jon Theodore
         username     : JONTHE01
@@ -38,12 +39,14 @@
         email        : jon.theodore@greatmusicians.com
         organization : The Mars Volta, Queens of the Stone Age
         disabled     : True
+    }
 
     .EXAMPLE
     # This example will disable a user in DFRespons based on the username.
     Disable-DFResponsUser -SamAccountName DAVGRO01
 
     Example response:
+    {
         id           : 04
         name         : Dave Grohl
         username     : DAVGRO01
@@ -51,7 +54,8 @@
         email        : dave.grohl@greatmusicians.com
         organization : Them Crooked Vultures, Foo Fighters
         disabled     : True
-
+    }
+    
     .EXAMPLE
     # Here we create an array that contains a number of user Id's
     $Array = @(
