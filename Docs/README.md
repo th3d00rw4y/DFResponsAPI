@@ -8,11 +8,11 @@ Locale: en-US
 
 # DFResponsAPI Module
 ## Description
-{{ Module for integrations with the DFRespons API }}
+Module for integrations with the DFRespons API 
 
 ## DFResponsAPI Cmdlets
 ### [Disable-DFResponsUser](Disable-DFResponsUser.md)
-{{ Disable a user in DFRespons. }}
+{ Disable a user in DFRespons. }
 
 ### [Enable-DFResponsUser](Enable-DFResponsUser.md)
 {{ Enable a user in DFRespons. }}
