@@ -25,54 +25,8 @@ foreach ($Import in @($Private + $Public)) {
     }
 }
 
-<# if (-not (Test-Path $DFRSettingsFilePath)) {
-
-    Clear-Host
-    Write-Output "Select credential file for encrypted basic authentication"
-    $BASecretPath = Get-FilePath
-
-    Clear-Host
-    Write-Output "Select credential file for encrypted API key"
-    $APIKeyPath= Get-FilePath
-
-    $Server = Read-Host -Prompt "Enter server URI (e.g: ""https://MYDOMAIN.dfrespons.se/api"")"
-
-     
-    do {
-        $BASecretPath = Read-Host -Prompt "Enter path to credential file for encrypted basic authentication (e.g: ""C:\Secrets\DFR\DFR_BasicAuth.crd"")"
-    } while ($(Test-Path $BASecretPath) -eq $false) {
-        Write-Output "Path $BASecretPath is not valid."
-    }
-
-    do {
-        $BASecretPath = Read-Host -Prompt "Enter path to credential file for encrypted basic authentication (e.g: ""C:\Secrets\DFR\DFR_BasicAuth.crd"")"
-    } while (condition) {
-    } ($(Test-Path $BASecretPath) -eq $true)
-
-    while ((Test-Path $BASecretPath) -eq $false) {
-        $BASecretPath = Read-Host -Prompt "Enter path to credential file for encrypted basic authentication (e.g: ""C:\Secrets\DFR\DFR_BasicAuth.crd"")"
-    }
-
-    $BASecretPath = Read-Host -Prompt "Enter path to credential file for encrypted basic authentication (e.g: ""C:\Secrets\DFR\DFR_BasicAuth.crd"")"
-    $APIKeyPath   = Read-Host -Prompt "Enter path to credential file for encrypted API key (e.g: ""C:\Secrets\DFR\DFRKey.crd"")"
-    $Server       = Read-Host -Prompt "Enter server URI (e.g: ""https://MYDOMAIN.dfrespons.se/api"")"
-    
-
-    $Table = [PSCustomObject]@{
-        BASecretPath = $BASecretPath
-        APIKeyPath   = $APIKeyPath
-        Server       = $Server
-    }
-
-    $Table | ConvertTo-Csv -NoTypeInformation | Set-Content -Path $DFRSettingsFilePath -Encoding UTF8
-
-    $Script:Settings = Import-Csv -Path $DFRSettingsFilePath
-}
-else {
-    $Script:Settings = Import-Csv -Path $DFRSettingsFilePath
-} #>
-
 Export-ModuleMember -Function $Public.Basename
+Export-ModuleMember -Function "New-Secret", "Get-Secret"
 
 if ($SettingsFileExists -eq $true) {
     Export-ModuleMember -Variable Settings, ADProperties
