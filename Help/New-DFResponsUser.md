@@ -30,7 +30,7 @@ New-DFResponsUser [-OnlySamAccountName <String>] [<CommonParameters>]
 
 ## DESCRIPTION
 This CMDlet will let you create a new user in DFRespons.
-Works with either providing data manually to parameter set \`ManualSet\` or by piping an ADObject to the CMDlet.
+Works with either providing data manually to parameter set ManualSet or by piping an ADObject to the CMDlet.
 
 ## EXAMPLES
 
@@ -54,24 +54,13 @@ Example response:
     name         : Brann Dailor
     username     : BRANDAI01
     email        : brann.dailor@greatmusicians.com
-    password     : <Random generated password>
     disabled     : False
 }
 ```
 ### EXAMPLE 2
 ```powershell
 # This example will create the user in DFRespons based only on a SamAccountName from the active directory along with provided properties
-$ADProperties = @(
-    'Title'
-    'Organization',
-    'ExtensionAttribute5' # Let's pretend that this AD attribute hold information about our user's work phone number.
-    'TelephoneNumber' # This AD attribute in this case holds information about our user's cellphone number
-    'SamAccountName'
-    'GivenName'
-    'Surname'
-    'Mail'
-)
-New-DFResponsUser -OnlySamAccountName BRADAI01 -ADProperties @ADProperties
+New-DFResponsUser -OnlySamAccountName BRADAI01
 ```
 Example response:
 ```yaml
@@ -102,6 +91,7 @@ Example response:
     disabled     : False
 }
 ```
+
 ## PARAMETERS
 
 ### -Surname

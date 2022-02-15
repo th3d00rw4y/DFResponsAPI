@@ -34,7 +34,6 @@ Disable-DFResponsUser -Id 23
 ```
 Example response:
 ```yaml
-{
     id           : 23
     name         : Alain Johannes
     username     : ALAJOH01
@@ -42,7 +41,6 @@ Example response:
     email        : alain.johannes@greatmusicians.com
     organization : Them Crooked Vultures, Queens of the Stone Age...
     disabled     : True
-}
 ```
 ### EXAMPLE 2
 ```powershell
@@ -82,43 +80,15 @@ Example response:
 ```powershell
 # Here we create an array that contains a number of user Id's
 $Array = @(
-    '04',
-    '34',
-    '23'
+    '45',
+    '67',
+    '90'
 )
+
 # The array is piped into a foreach loop that will iterate and disable each user connected to the Id's
 $Array | Foreach-Object {Disable-DFResponsUser -Id $_}
 ```
-Example response:
-```yaml
-{
-    id           : 04
-    name         : Dave Grohl
-    username     : DAVGRO01
-    title        : Drummer/Singer/Guitarist
-    email        : dave.grohl@greatmusicians.com
-    organization : Them Crooked Vultures, Foo Fighters
-    disabled     : True
-}
-{
-    id           : 34
-    name         : Jon Theodore
-    username     : JONTHE01
-    title        : Drummer
-    email        : jon.theodore@greatmusicians.com
-    organization : The Mars Volta, Queens of the Stone Age
-    disabled     : True
-}
-{
-    id           : 23
-    name         : Alain Johannes
-    username     : ALAJOH01
-    title        : Multi instrumentalist
-    email        : alain.johannes@greatmusicians.com
-    organization : Them Crooked Vultures, Queens of the Stone Age...
-    disabled     : True
-}
-```
+
 ## PARAMETERS
 
 ### -Id

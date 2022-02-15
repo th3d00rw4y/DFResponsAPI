@@ -36,7 +36,7 @@ PageSize can be used in conjunction with the -All switch to limit number of obje
 
 ### EXAMPLE 1
 ```powershell
-Get-DFResponsUser -SamAccountName User01
+Get-DFResponsUser -SamAccountName JIMPAG01
 ```
 Example respone:
 ```yaml
@@ -52,7 +52,6 @@ Example respone:
     disabled     : False
 }
 ```
-
 ### EXAMPLE 2
 ```powershell
 # This example fetches an user from the active directory and pipes the AD object into the Get-DFResponsUser
@@ -72,7 +71,6 @@ Example respone:
     disabled     : True
 }
 ```
-
 ### EXAMPLE 3
 ```powershell
 Get-DFResponsUser -Id 02

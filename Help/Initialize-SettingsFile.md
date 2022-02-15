@@ -31,8 +31,7 @@ Lastly you will be prompted to select a folder where the settings file will be s
 ### EXAMPLE 1
 ```powershell
 # In this example we'll use UserPrincipalName as the SamAccountName/Username and exclude Phone, CellPhone, Title and Organization.
-# In this example we assume that GivenName, Surname and Email all points to the default values.
-
+# We assume that GivenName, Surname and Email all points to the default values.
 Initialize-SettingsFile -Server "https://MyDomain.dfrespons.se/api" -SamAccountName UserPrincipalName
 
 # This will give you three different prompts.
@@ -44,7 +43,6 @@ Initialize-SettingsFile -Server "https://MyDomain.dfrespons.se/api" -SamAccountN
 ### EXAMPLE 2
 ```powershell
 # Here we splat all of the parameters to feed the DFRespons system with full user information.
-
 $SettingParams = @{
     Server         = "https://MyDomain.dfrespons.se/api"
     SamAccountName = "SamAccountName"
@@ -66,78 +64,17 @@ Initialize-SettingsFile @SettingParams
 
 ## PARAMETERS
 
-### -CellPhone
-What property value in AD you want to refer to as the DFRespons CellPhone
+### -Server
+Your organizations API instance of DFRespons.
+e.g: https://DomainName.dfrespons.se/api
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: False
-Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Email
-What property value in AD you want to refer to as the DFRespons Mail.
-Defaults to AD property Mail
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: Mail
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GivenName
-What property value in AD you want to refer to as the DFRespons Name This parameter defaults to AD property GivenName.
-It will also work in conjunction with the Surname parameter to build the DFRespons name as follows: $GivenName $Surname
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: GivenName
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Organization
-What property value in AD you want to refer to as the DFRespons Organization Defaults to physicalDeliveryOfficeName
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 9
-Default value: PhysicalDeliveryOfficeName
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Phone
-What property value in AD you want to refer to as the DFRespons Phone
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
+Required: True
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -158,18 +95,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Server
-Your organizations API instance of DFRespons.
-e.g: https://DomainName.dfrespons.se/api
+### -GivenName
+What property value in AD you want to refer to as the DFRespons Name This parameter defaults to AD property GivenName.
+It will also work in conjunction with the Surname parameter to build the DFRespons name as follows: $GivenName $Surname
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
-Default value: None
+Required: False
+Position: 3
+Default value: GivenName
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -190,6 +127,52 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Email
+What property value in AD you want to refer to as the DFRespons Mail.
+Defaults to AD property Mail
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: Mail
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Phone
+What property value in AD you want to refer to as the DFRespons Phone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CellPhone
+What property value in AD you want to refer to as the DFRespons CellPhone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Title
 What property value in AD you want to refer to as the DFRespons Title Defaults to AD property Title
 
@@ -201,6 +184,21 @@ Aliases:
 Required: False
 Position: 8
 Default value: Title
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Organization
+What property value in AD you want to refer to as the DFRespons Organization Defaults to physicalDeliveryOfficeName
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: PhysicalDeliveryOfficeName
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

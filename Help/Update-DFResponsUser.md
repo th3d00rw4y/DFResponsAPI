@@ -8,7 +8,7 @@ schema: 2.0.0
 # Update-DFResponsUser
 
 ## SYNOPSIS
-Short description
+Updates a DFRespons user
 
 ## SYNTAX
 
@@ -39,19 +39,51 @@ Update-DFResponsUser [-OnlySamAccountName <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Long description
+This CMDlet will let you update a user within DFRespons.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
+```powershell
+# This example will update a user in DFRespons with the following properties: title, cellphone and organization
+Update-DFResponsUser -SamAccountName BREHIN01 -Title "Singer/Guitarist" -CellPhone "098765453421" -Organization "Mastodon"
 ```
-An example
+Example response:
+```yaml
+{
+    id           : 11
+    name         : Brent Hinds
+    username     : BREHIN01
+    title        : Guitarist/Singer
+    email        : brent.hinds@greatmusicians.com
+    cellphone    : 098765453421
+    organization : Mastodon
+}
+```
+
+### EXAMPLE 2
+```powershell
+# This example will update a user in DFRespons based only on the SamAccountName
+Update-DFResponsUser -OnlySamAccountName BREHIN01
+# Again, AD properties are determined by what you provided to your settings file when running Initialize-SettingsFile
+```
+Example response:
+```yaml
+{
+    id           : 11
+    name         : Brent Hinds
+    username     : BREHIN01
+    title        : Guitarist/Singer
+    email        : brent.hinds@greatmusicians.com
+    cellphone    : 098765453421
+    organization : Mastodon
+}
 ```
 
 ## PARAMETERS
 
 ### -SamAccountName
-Parameter description
+SamAccountName/Username of the user to be updated
 
 ```yaml
 Type: String
@@ -78,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -Id
-Parameter description
+Id of the user to be updated
 
 ```yaml
 Type: String
@@ -105,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -EMail
-Parameter description
+Updates the email for a user
 
 ```yaml
 Type: String
@@ -120,7 +152,7 @@ Accept wildcard characters: False
 ```
 
 ### -Title
-Parameter description
+Updates the title of a user
 
 ```yaml
 Type: String
@@ -135,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -Phone
-Parameter description
+Updates the phone number of a user
 
 ```yaml
 Type: String
@@ -150,7 +182,7 @@ Accept wildcard characters: False
 ```
 
 ### -CellPhone
-Parameter description
+Updates the cellphone number of a user
 
 ```yaml
 Type: String
@@ -165,7 +197,7 @@ Accept wildcard characters: False
 ```
 
 ### -Organization
-Parameter description
+Updates the organization of a user
 
 ```yaml
 Type: String
@@ -180,7 +212,8 @@ Accept wildcard characters: False
 ```
 
 ### -ADObject
-Parameter description
+AD object of a user.
+Each of the properties in the AD object that match what you set as property identifiers in your settings file will be updated
 
 ```yaml
 Type: ADAccount
@@ -195,7 +228,8 @@ Accept wildcard characters: False
 ```
 
 ### -OnlySamAccountName
-Parameter description
+Update a user based on the users AD SamAccountName.
+Will utilize the property identifiers that you set in your settings file and update the user in DFRespons
 
 ```yaml
 Type: String
@@ -217,6 +251,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-General notes
+Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
 
 ## RELATED LINKS

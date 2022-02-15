@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-DFResponsUser
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Removes a user in DFRespons
 
 ## SYNTAX
 
@@ -23,21 +23,45 @@ Remove-DFResponsUser -SamAccountName <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This CMDlet will remove a user within the DFRespons system.
+Use with caution as this action is irreversible.
+It is recommended that you utilize Disable-DFResponsUser instead of this CMDlet.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+# This example will remove the user based on it's Id
+Remove-DFResponsUser -Id 45
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+# This example will remove the user based on it's SamAccountName/Username
+Remove-DFResponsUser -SamAccountName BRADAI01
+```
+
+### EXAMPLE 3
+```powershell
+# This example will fetch an user from AD and utilize the ValueFromPipeline and remove given user based on it's SamAccountName
+Get-ADUser BRADAI01 | Remove-DFResponsUser
+```
+
+### EXAMPLE 4
+```powershell
+# In this example we have an array of Id's that we pipe into an foreach loop that will then remove the users from DFRespons
+$Array = @(
+    '45'
+    '78'
+    '110'
+)
+$Array | ForEach-Object {Remove-DFResponsUser -Id $_}
+```
 
 ## PARAMETERS
 
 ### -Id
-{{ Fill Id Description }}
+Id of the user in DFRespons that is to be removed.
 
 ```yaml
 Type: String
@@ -52,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -SamAccountName
-{{ Fill SamAccountName Description }}
+SamACcountName/Username of the user in DFRespons that is to be removed.
 
 ```yaml
 Type: String
@@ -71,11 +95,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.String
-
 ## OUTPUTS
 
-### System.Object
 ## NOTES
+Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
 
 ## RELATED LINKS
