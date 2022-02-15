@@ -34,6 +34,7 @@ Disable-DFResponsUser -Id 23
 ```
 Example response:
 ```yaml
+{
     id           : 23
     name         : Alain Johannes
     username     : ALAJOH01
@@ -41,6 +42,7 @@ Example response:
     email        : alain.johannes@greatmusicians.com
     organization : Them Crooked Vultures, Queens of the Stone Age...
     disabled     : True
+}
 ```
 ### EXAMPLE 2
 ```powershell

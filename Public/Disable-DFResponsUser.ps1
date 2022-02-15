@@ -18,6 +18,7 @@
     Disable-DFResponsUser -Id 23
 
     Example response:
+    {
         id           : 23
         name         : Alain Johannes
         username     : ALAJOH01
@@ -25,7 +26,8 @@
         email        : alain.johannes@greatmusicians.com
         organization : Them Crooked Vultures, Queens of the Stone Age...
         disabled     : True
-
+    }
+    
     .EXAMPLE
     # This example will take an user object retreived from AD, contaning the property SamAccountName and pipe it to the Disable-DFResponsUser CMDlet.
     $ADObject | Disable-DFResponsUser
