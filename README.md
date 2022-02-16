@@ -112,15 +112,10 @@ Please make sure you've followed each one.
           - [x] Sees that you only get what you actually want from the API call.
 - 0.0.2 - 2021.04.02
   - [x] Reworked how default parameter vaules are populated. Cleaner way of getting data from settings.csv.
-- 0.0.1 - 2022.02.18
+- 0.0.1.0 - 2022.02.18
   - [x] Created this repository, first commit.
   - [x] Available but not finished public functions:
-      - [x] `Get-DFResponsUser`
-          - [x] Method: GET
-          - [x] Parameters: `[string]`SamAccountName
-                            `[string]`Id
-                            `[string]`All
-                            `[string]`PageSize
+      - [x] [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
       - [x] `Get-GestioNetwork`
           - [x] Utilizing the request type "readNetwork", this function will retrieve information on the network of the Ip address provided.
           - [x] Parameters: `[string]`Ip
