@@ -110,28 +110,25 @@ Please make sure you've followed each one.
   - [x] New private function:
       - [x] `Format-GestioResponse`
           - [x] Sees that you only get what you actually want from the API call.
-- 0.0.2 - 2021.04.02
-  - [x] Reworked how default parameter vaules are populated. Cleaner way of getting data from settings.csv.
-- 0.0.1.0 - 2022.02.18
-  - [x] Created this repository, first commit.
-  - [x] Available but not finished public functions:
-      - [x] [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
-      - [x] `Get-GestioNetwork`
-          - [x] Utilizing the request type "readNetwork", this function will retrieve information on the network of the Ip address provided.
-          - [x] Parameters: `[string]`Ip
-  - [x] Available and kinda finished private functions:
-      - [x] `Invoke-GestioIP`
-          - [x] Sort of the heart of it all. Every public function calls this one with it's formatted request string.
-      - [x] `Save-GestioCredential`
-          - [x] Upon first import of the module you'll be prompted to enter the password for the user you've supplied in Settings.csv.
-          - [x] The secure string will be saved using `Export-CliXML` in $env:TEMP, readable only by the user importing the module and only on the machine that it was executed on.
-      - [x] `Get-GestioCredential`
-          - [x] Retrieves the encrypted secure string previously stored in $env:TEMP
-      - [x] `Get-PlainText`
-          - [x] Converts the secure string to plaintext to be able to pass it into the API call. `The password will never be written out in plaintext!`
-      - [x] `Get-AuthenticationToken`
-          - [x] Generates the token for the API call.
-  - [-] Trying to learn how github works.
+# 0.0.2 - 2022.02.14
+  - Reworked how default settings will be handled.
+    - New public function for setting default values: [Initialize-SettingsFile](Docs/Initialize-SettingsFile.md)
+## 0.0.1.0 - 2022.02.11
+  - Created this repository, first commit.
+  - Available but not entirely finished public functions:
+      - [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
+      - [Disable-DFResponsUser](Docs/Disable-DFResponsUser.md)
+      - [Enable-DFResponsUser](Docs/Enable-DFResponsUser.md)
+      - [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
+      - [New-DFResponsUser](Docs/New-DFResponsUser.md)
+      - [Remove-DFResponsUser](Docs/Remove-DFResponsUser.md)
+      - [Sync-DFResponsFromADGroup](Docs/Sync-DFResponsFromADGroup.md)
+      - [Update-DFResponsUser](Docs/Update-DFResponsUser.md)
+  - Kind of finished private functions:
+      - `Invoke-DFResponsAPI`
+        - Sort of the heart of it all. Every public function calls this one with it's formatted request string.
+      - `Get-AuthenticationToken`
+        - Converts the secure string to base64 to be able to pass it into the API call.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
