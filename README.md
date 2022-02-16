@@ -41,12 +41,13 @@ Please make sure you've followed each one.
 * API key and a service account provided by the vendor.
 
 ### Installation
-1. Download the DFResponsAPI module: `Install-Module -Name DFResponsAPI` 
-2. `Import-Module -Name DFResponsAPI`. You will be notified that there is no settings file present, but let's skip this for now.
-3. Run `New-Secret -`
-
-3. Upon first import of the module, you will be prompted to supply a password for the GestióIP user you provided in the settings.csv.
-This password will be stored in $env:TEMP as a encrypted secure string only readable by the user who created it and only on the machine it was executed on.
+1. Start a powershell session with the account that will be running the tasks. This is because when doing steps 4 & 5, the credential files will only be readable by the very same account that created them.
+2. Download the DFResponsAPI module: `Install-Module -Name DFResponsAPI`
+3. `Import-Module -Name DFResponsAPI`. You will get a warning saying that there is no settings file present, but let's skip this for now.
+4. Run `New-Secret -Name <Name of the file> -Path <Path to store the secret> -Username <The API service account username>` You will be prompted to enter the password for the service account.
+5. Again, run `New-Secret -Name <Name of the API key secret file> -Path <Path to store the secret>` You will once again be prompted to enter a password, which in this case would be the API key.
+6. Run `Initialize-SettingsFile`. See /Docs/Initialize-SettingsFile.md for examples.
+7. Finally import the module again `Import-Module DFResponsAPI -Force`. And you should be good to go!
 
 ## Changelog
 
@@ -111,12 +112,15 @@ This password will be stored in $env:TEMP as a encrypted secure string only read
           - [x] Sees that you only get what you actually want from the API call.
 - 0.0.2 - 2021.04.02
   - [x] Reworked how default parameter vaules are populated. Cleaner way of getting data from settings.csv.
-- 0.0.1 - 2021.04.01
-  - [x] First commit.
+- 0.0.1 - 2022.02.18
+  - [x] Created this repository, first commit.
   - [x] Available but not finished public functions:
-      - [x] `Get-GestioHost`
-          - [x] Utilizing the request type "readHost", this function will retrieve a host based on either Ip address or hostname.
-          - [x] Parameters: `[string]`Ip, `[string]`Hostname
+      - [x] `Get-DFResponsUser`
+          - [x] Method: GET
+          - [x] Parameters: `[string]`SamAccountName
+                            `[string]`Id
+                            `[string]`All
+                            `[string]`PageSize
       - [x] `Get-GestioNetwork`
           - [x] Utilizing the request type "readNetwork", this function will retrieve information on the network of the Ip address provided.
           - [x] Parameters: `[string]`Ip
