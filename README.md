@@ -113,7 +113,7 @@ Please make sure you've followed each one.
 # 0.0.2 - 2022.02.14
   - Reworked how default settings will be handled.
     - New public function for setting default values: [Initialize-SettingsFile](Docs/Initialize-SettingsFile.md)
-## 0.0.1.0 - 2022.02.11
+- ## 2022.02.11 - Version: 0.0.1.0
   - Created this repository, first commit.
   - Available but not entirely finished public functions:
       - [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
