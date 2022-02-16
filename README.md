@@ -31,7 +31,7 @@ It was also created in a way that other organizations can utilize it.
 
 <!-- GETTING STARTED -->
 ## Getting Started
-There are a few steps you need to complete before you can start using the CMDlets in this module
+There are a few steps you need to complete before you can start using the CMDlets in this module.
 Please make sure you've followed each one.
 
 ### Prerequisites
@@ -41,8 +41,9 @@ Please make sure you've followed each one.
 * API key and a service account provided by the vendor.
 
 ### Installation
-1. Download the `DFResponsAPI` module.
-2. ```powershell Import-Module .\DFResponsAPI.psd1 ```
+1. Download the DFResponsAPI module: `Install-Module -Name DFResponsAPI` 
+2. `Import-Module -Name DFResponsAPI`. You will be notified that there is no settings file present, but let's skip this for now.
+3. Run `New-Secret -`
 
 3. Upon first import of the module, you will be prompted to supply a password for the GestióIP user you provided in the settings.csv.
 This password will be stored in $env:TEMP as a encrypted secure string only readable by the user who created it and only on the machine it was executed on.
