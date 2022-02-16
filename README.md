@@ -80,55 +80,40 @@ Please make sure you've followed each one.
           - [x] This function will read the category and site categories from the API and store the sets in .txt files under $env:TEMP
       - [x] `Get-DynamicParameter`
           - [x] Builds parameters with validation sets based on the categories from the host and site files.
-- 0.0.4 - 2021.04.04
-  - [x] New public functions:
-      - [x] `Add-GestioHost`
-          - [x] Utilizing the request type 'createHost', this function will create a host on the supplied Ip togehter with information from other parameters used.
-          - [x] Parameters: `[string]`Ip, `[string]`Hostname, `[string]`Description, `[string]`Category, `[string]`, `[string]`Site, `[switch]`int_Admin, `[string]`Comment
-      - [x] `Remove-GestioHost`
-          - [x] Utilizing the request type "deleteHost", this function will based on either Ip or Hostname remove a host entry in GestióIP.
-          - [x] Parameters: `[string]`Ip, `[string]`Hostname
-          - [x] Note from the API documentation: 
-              - [i] IP addresses are unique. Hostnames may not be unique.
-              - [i] If there are more than one host with the same hostname found in the database, the first found host will deleted."
-              - [x] Conclusion: Use Ip when removing hosts.
-  - [x] New private functions:
-      - [x] `Test-GestioCredential`
-          - [x] Upon first import of the module, this function kicks in when the password is entered to ensure that it is the correct password.
-      - [x] `Format-UsedParameters`
-          - [x] Formats strings passed in parameters to match the API call structure.
-- 0.0.3 - 2021.04.03
-  - [x] Changed namne of some files and various fixes.
-  - [x] Added this changelog.
-  - [x] New public functions:
-      - [x] `Get-GestioFirstFreeNetworkAddress`
-          - [x] Utilizing the request type "firstFreeNetworkAddress". This function will based on the Ip address provided retrieve the first free Ip address.
-          - [x] Parameters: `[string]`Ip
-      - [x] `Get-GestioFreeNetworkAddresses`
-          - [x] Utilizing the request type "freeNetworkAddresses", This function will retrieve all the free addresses from supplied network address.
-          - [x] Parameters: `[string]`Ip
-  - [x] New private function:
-      - [x] `Format-GestioResponse`
-          - [x] Sees that you only get what you actually want from the API call.
-# 0.0.2 - 2022.02.14
-  - Reworked how default settings will be handled.
-    - New public function for setting default values: [Initialize-SettingsFile](Docs/Initialize-SettingsFile.md)
+- ## 2022.02.16 - Version 0.0.1.3
+    - New public CMDlets:
+        - [x] [Sync-DFResponsFromADGroup](Docs/Sync-DFResponsFromADGroup.md)
+        - [x] [Update-DFResponsUser](Docs/Update-DFResponsUser.md)
+    - New private functions:
+        - [x] `Get-ErrorMessage`
+            - Handles exceptions and errors returned.
+        - [x] `Format-UsedParameters`
+            - Formats strings passed in parameters to match the API call structure.
+- ## 2022.02.15 - Version 0.0.1.2
+    - [x] Changed namne of some files and various fixes.
+    - [x] Added this changelog.
+    - [x] New public CMDlets:
+        - [x] [Disable-DFResponsUser](Docs/Disable-DFResponsUser.md)
+        - [x] [Enable-DFResponsUser](Docs/Enable-DFResponsUser.md)
+    - New private function:
+        - [x] `ConvertFrom-ADObject`
+            - Handles `[Microsoft.ActiveDirectory.Management.ADUser]` and converts it into a PSCustomObject used for comparing and preparing json payload.
+- ## 2022.02.14 - Version 0.0.1.1
+    - Reworked how default settings will be handled.
+        - New public CMDlet:
+            - [x] [Initialize-SettingsFile](Docs/Initialize-SettingsFile.md)
 - ## 2022.02.11 - Version: 0.0.1.0
-  - Created this repository, first commit.
-  - Available but not entirely finished public functions:
-      - [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
-      - [Disable-DFResponsUser](Docs/Disable-DFResponsUser.md)
-      - [Enable-DFResponsUser](Docs/Enable-DFResponsUser.md)
-      - [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
-      - [New-DFResponsUser](Docs/New-DFResponsUser.md)
-      - [Remove-DFResponsUser](Docs/Remove-DFResponsUser.md)
-      - [Sync-DFResponsFromADGroup](Docs/Sync-DFResponsFromADGroup.md)
-      - [Update-DFResponsUser](Docs/Update-DFResponsUser.md)
-  - Kind of finished private functions:
-      - `Invoke-DFResponsAPI`
-        - Sort of the heart of it all. Every public function calls this one with it's formatted request string.
-      - `Get-AuthenticationToken`
-        - Converts the secure string to base64 to be able to pass it into the API call.
+    - Created this repository, first commit.
+    - Available but not entirely finished public functions:
+        - [x] [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
+        - [x] [Get-DFResponsUser](Docs/Get-DFResponsUser.md)
+        - [x] [New-DFResponsUser](Docs/New-DFResponsUser.md)
+        - [x] [Remove-DFResponsUser](Docs/Remove-DFResponsUser.md)
+    - Kind of finished private functions:
+        - `Invoke-DFResponsAPI`
+            - Sort of the heart of it all. Every public function calls this one with it's formatted request string.
+        - `Get-AuthenticationToken`
+            - Converts the secure string to base64 to be able to pass it into the API call.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
