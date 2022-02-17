@@ -28,7 +28,7 @@ function Invoke-DFResponsAPI {
         [System.Object]
         $Body
     )
-    
+
     begin {
 
         $Headers = @{
@@ -54,7 +54,7 @@ function Invoke-DFResponsAPI {
             }
         }
     }
-    
+
     process {
 
         try {
@@ -67,7 +67,7 @@ function Invoke-DFResponsAPI {
             Get-ErrorMessage -ErrorObject $RequestError
         }
     }
-    
+
     end {
         # return $InvokeParams
         return $Response

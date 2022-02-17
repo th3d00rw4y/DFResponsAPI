@@ -20,7 +20,7 @@ function ConvertFrom-ADObject {
         [string]
         $ReturnType = 'HashTable'
     )
-    
+
     begin {
         $UsedParameters = New-Object -TypeName PSCustomObject -Property @{
             Name = ""
@@ -34,7 +34,7 @@ function ConvertFrom-ADObject {
         }
         # $UsedParameters = New-Object -TypeName PSCustomObject -Property ([ordered]@{})
     }
-    
+
     process {
 
         foreach ($item in $Settings.PSObject.Properties | Where-Object {($_.Name -notlike '*Path') -and ($_.Name -ne 'Server')}) {
@@ -70,7 +70,7 @@ function ConvertFrom-ADObject {
             }
         }
     }
-    
+
     end {
         return $ReturnObject
     }

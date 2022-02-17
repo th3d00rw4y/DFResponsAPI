@@ -18,7 +18,7 @@ function Get-FilePath {
     [CmdletBinding()]
 
     param (
-        
+
         # Target type
         [Parameter(Mandatory = $true)]
         [ValidateSet(
@@ -29,7 +29,7 @@ function Get-FilePath {
         [string[]]
         $Type
     )
-    
+
     begin {
 
         $Table = [PSCustomObject]@{}
@@ -44,7 +44,7 @@ function Get-FilePath {
             )
 
             [System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms") | Out-Null
-            
+
             switch ($Type) {
                 OpenFileDialog      {
                     $OpenDialog        = New-Object System.Windows.Forms.$Type
@@ -68,7 +68,7 @@ function Get-FilePath {
             }
         }
     }
-    
+
     process {
 
         switch ($Type) {
@@ -98,7 +98,7 @@ function Get-FilePath {
             }
         }
     }
-    
+
     end {
         return $Table
     }

@@ -37,8 +37,8 @@
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>
-    [CmdletBinding()]
-    
+    [CmdletBinding(SupportsShouldProcess = $true)]
+
     param (
         # Id of the user that will be removed
         [Parameter(
@@ -58,7 +58,7 @@
         [string]
         $SamAccountName
     )
-    
+
     begin {
         # Switch that determines what parameter that has been used.
         switch ($PSCmdlet.ParameterSetName) {
@@ -74,7 +74,7 @@
             }
         }
     }
-    
+
     process {
 
         # Checking that given user actually exists.
@@ -83,7 +83,7 @@
         # Prompt user for removal
         do {
             $YesOrNo = Read-Host "Are you sure you want to remove the following user:`n`nName: $($GetUserObject.name)`nUsername: $($GetUserObject.username)`n`n(y/n) ?"
-        } 
+        }
         while ("y","n" -notcontains $YesOrNo)
 
         switch ($YesOrNo) {
@@ -91,7 +91,7 @@
             n {$Response = "Removal process canceled by user"}
         }
     }
-    
+
     end {
         if ($Response) {
             return $Response

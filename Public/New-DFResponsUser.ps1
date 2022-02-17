@@ -80,13 +80,13 @@
         email        : brann.dailor@greatmusicians.com
         disabled     : False
     }
-    
+
     .NOTES
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>
 
-    [CmdletBinding()]
-    
+    [CmdletBinding(SupportsShouldProcess = $true)]
+
     param (
         # Surname of the user
         [Parameter(
@@ -160,11 +160,11 @@
         [string]
         $OnlySamAccountName
     )
-    
+
     begin {
         $Parameters = $MyInvocation.BoundParameters.Keys
     }
-    
+
     process {
 
         #region Formatting the payload
@@ -185,7 +185,7 @@
 
         # Getting the request call parameters
         $RequestParams = Format-APICall -Property CreateUser -InputObject $UsedParameters
-        
+
         # Splatting the parameters for the request
         $InvokeParams = @{
             RequestString = $RequestParams.RequestString
@@ -194,9 +194,14 @@
         }
 
         # Sending the payload to Invoke-DFResponsAPI
-        $Response = Invoke-DFResponsAPI @InvokeParams
+        try {
+            $Response = Invoke-DFResponsAPI @InvokeParams -ErrorAction Stop
+        }
+        catch {
+            Write-Warning $_.Exception.Message
+        }
     }
-    
+
     end {
         return $Response
     }

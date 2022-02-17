@@ -1,29 +1,29 @@
-function New-Secret {
-    
+﻿function New-Secret {
+
     <#
     .SYNOPSIS
     Saves a secret into a XML file.
-    
+
     .DESCRIPTION
     This CMDlet will save either a PSCredential (username and password) or just a SecureString into an encrypted cliXML file.
     The exported cliXML file will only be readable on the very same computer it was generated on and by the user doing the export.
-    
+
     .PARAMETER Name
     String provided here will be used to name the file. The filename will also be given the current user- and computer name running the action.
-    
+
     .PARAMETER Path
     Where the encrypted cliXML file will be stored. If the directory does not exist, it will be created.
-    
+
     .PARAMETER Username
     Username to be used in conjunction with the secret.
-    
+
     .PARAMETER Secret
     The actual secret. Saved into a SecureString and masked in the console.
-    
+
     .EXAMPLE
     New-Secret -Name "MyServiceAccountSecret" -Path "C:\TMP\Secrets" -Username "MyServiceAccount"
     This example will save the cliXML file to C:\TMP\Secrets. The file will be named "MyServiceAccountSecret.crd" and contain both the username and an encrypted string of the secret.
-    
+
     .EXAMPLE
     New-Secret -Name 'MySecretAPIKey' -Path "C:\TMP\Secrets"
     This example will save the cliXML file to C:\TMP\Secrets. The file will be named "MySecretAPIKey.crd" and contain only an encrypted string of the secret.
@@ -32,7 +32,7 @@ function New-Secret {
     Author: Simon Mellergård | IT-avdelningen, Värnamo kommun
     #>
 
-    [CmdletBinding()]
+    [CmdletBinding(SupportsShouldProcess = $true)]
 
     param (
         # Name of the secret file
@@ -58,7 +58,7 @@ function New-Secret {
         [securestring]
         $Secret
     )
-    
+
     begin {
 
         # Boolean variable used to determine whether or not to return success code.
@@ -85,20 +85,18 @@ function New-Secret {
             [pscredential]$CredObject = New-Object -TypeName System.Management.Automation.PSCredential ($Username, $Secret)
         }
     }
-    
+
     process {
-        
         # The actual export of the credentials object.
         try {
             $CredObject | Export-Clixml -Path "$Path\$Name" -ErrorAction Stop
             $SecretStored = $true
         }
         catch {
-            Write-Host $_.Exception.Message
+            Write-Warning $_.Exception.Message
         }
-        
     }
-    
+
     end {
         # Success code
         if ($SecretStored -eq $true) {

@@ -73,7 +73,7 @@
 
     param (
 
-        # Server URI 
+        # Server URI
         [Parameter(Mandatory = $true)]
         [string]
         $Server,
@@ -92,7 +92,7 @@
         [Parameter()]
         [string]
         $Surname = "Surname",
-        
+
         # ADProperty holding information about user's email address
         [Parameter()]
         [string]
@@ -118,7 +118,7 @@
         [string]
         $Organization = "PhysicalDeliveryOfficeName"
     )
-    
+
     begin {
         # Creating variable to store everything in.
         $SettingsTable = [PSCustomObject]@{}
@@ -126,7 +126,7 @@
         # Creates a open folder dialog for you to pick a location for the CSV file.
         $SettingsFilePath = Get-FilePath -Type Settings
     }
-    
+
     process {
         # Creates a open file dialog for you to choose the credential file holding basic authentication information
         $SettingsTable | Add-Member -MemberType NoteProperty -Name "BASecretPath" -Value $(Get-FilePath -Type BASecret | Select-Object -ExpandProperty BASecret)
@@ -146,15 +146,15 @@
         }
         #endregion Parameter used
     }
-    
+
     end {
         # Writing the CSV file
         $SettingsTable | ConvertTo-Csv -NoTypeInformation | Set-Content -Path $SettingsFilePath.Settings
 
         # Writing a checkfile for the module to remember what location the settings file where stored.
         $SettingsFilePath.Settings | Out-File -LiteralPath $DFRCheckSettingsFilePath
-        
-        Write-Host "Settings file saved to $($SettingsFilePath.Settings):"
+
+        Write-Output "Settings file saved to $($SettingsFilePath.Settings):"
         $SettingsTable
 
         Write-Warning -Message "You must reload the module for the changes to take effect and use the -Force parameter."

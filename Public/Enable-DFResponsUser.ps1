@@ -1,5 +1,5 @@
 ﻿function Enable-DFResponsUser {
-    
+
     <#
     .SYNOPSIS
     Enable a user in DFRespons
@@ -8,7 +8,7 @@
     This CMDlet will enable a user in the DFRespons system based on that the user already exists and is in a disabled state.
 
     .PARAMETER Id
-    Disable the user based on it's Id. 
+    Disable the user based on it's Id.
 
     .PARAMETER SamAccountName
     Disable the user based on it's SamAccountName/Username
@@ -38,7 +38,7 @@
         organization : Queens of the Stoneage...
         disabled     : False
     }
-    
+
     .EXAMPLE
     Get-ADUser -Identity BREHIN01 | Enable-DFResponsUser
     This example will fetch an AD account and pipe it to Enable-DFResponsUser
@@ -58,7 +58,7 @@
     #>
 
     [CmdletBinding()]
-    
+
     param (
         # Id of the user that will be enabled
         [Parameter(
@@ -78,13 +78,13 @@
         [string]
         $SamAccountName
     )
-    
+
     begin {
         $Body = [ordered]@{
             Disabled = $false
         }
     }
-    
+
     process {
         switch ($PSCmdlet.ParameterSetName) {
             Id {
@@ -103,7 +103,7 @@
 
         $Response = Invoke-DFResponsAPI @InvokeParams
     }
-    
+
     end {
         # return $InvokeParams
         return $Response

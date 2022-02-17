@@ -31,7 +31,7 @@
         [string]
         $PathToExcludedAccountsFile
     )
-    
+
     begin {
 
         # Checking that provided ADGroup actually exists.
@@ -44,15 +44,15 @@
             $false
         }
 
-        # Getting all current users in DFRespons 
+        # Getting all current users in DFRespons
         $CurrentDFResponsUsers = Get-DFResponsUser -All -PageSize 4000 | Select-Object -ExpandProperty results
 
         # Getting all accounts that are to be excluded from the synchronization.
         $ExcludedAccounts = Get-Content -Path $PathToExcludedAccountsFile
     }
-    
+
     process {
-        
+
         switch ($ADGroupExists) {
             True  {
 
@@ -148,7 +148,7 @@
         $ReturnHash += $UsersToUpdate
         $ReturnHash += $UserChanges
     }
-    
+
     end {
         return $ReturnHash
     }

@@ -14,19 +14,19 @@ function Format-UsedParameter {
         [string]
         $SetName,
 
-        # Inputobject containing the $PSCmdlet 
+        # Inputobject containing the $PSCmdlet
         [Parameter(Mandatory = $true)]
         [System.Object]
         $InputObject
     )
-    
+
     begin {
         # $UsedParameters = New-Object -TypeName PSCustomObject
         $UsedParameters = [PSCustomObject][ordered]@{}
     }
-    
+
     process {
-        
+
         switch ($SetName) {
             ManualSet {
 
@@ -56,7 +56,7 @@ function Format-UsedParameter {
                 }
             }
             {($_ -eq 'ObjectSet') -or ($_ -eq 'OnlySamAccountName')} {
-                
+
                 switch ($InputObject.PropertyNames) {
                     GivenName       {}
                     Surname         {
@@ -75,7 +75,7 @@ function Format-UsedParameter {
         $Body = @{}
         $UsedParameters.psobject.Properties | ForEach-Object {$Body[$_.Name] = $_.Value}
     }
-    
+
     end {
         return $Body
     }

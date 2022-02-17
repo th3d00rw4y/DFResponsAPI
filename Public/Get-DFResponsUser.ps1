@@ -1,24 +1,24 @@
 ﻿function Get-DFResponsUser {
-    
+
     <#
     .SYNOPSIS
     Get user(s) from the DFrespons database.
-    
+
     .DESCRIPTION
     Retreives a user based on it's username or id. Can also be called with the -All switch to retrieve all users. PageSize can be used in conjunction with the -All switch to limit number of objects returned.
-    
+
     .PARAMETER SamAccountName
     Get user object based on samaccountname/username.
-    
+
     .PARAMETER Id
     Get user object based on id.
-    
+
     .PARAMETER All
     Retrieves all user objects
-    
+
     .PARAMETER PageSize
     Sets the maximum number of user objects to be returned.
-    
+
     .EXAMPLE
     Get-DFResponsUser -SamAccountName JIMPAG01
     Example respone:
@@ -49,7 +49,7 @@
         cellPhone    : 0987654321
         disabled     : True
     }
-    
+
     .EXAMPLE
     Get-DFResponsUser -Id 02
     Example respons:
@@ -108,11 +108,11 @@
         [string]
         $PageSize = '25'
     )
-    
+
     begin {
 
     }
-    
+
     process {
 
         # Switch that identifies what parameter that has been used and sends the parameter data to the Format-APICall cmdlet.
@@ -126,7 +126,7 @@
         # Passing the invoke parameters to the Invoke-DFResponsAPI cmdlet.
         $Response = Invoke-DFResponsAPI @RequestProperties
     }
-    
+
     end {
         # Returning what comes from the Invoke-DFResponsAPI cmdlet.
         return $Response

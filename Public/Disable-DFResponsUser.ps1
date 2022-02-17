@@ -27,7 +27,7 @@
         organization : Them Crooked Vultures, Queens of the Stone Age...
         disabled     : True
     }
-    
+
     .EXAMPLE
     # This example will take an user object retreived from AD, contaning the property SamAccountName and pipe it to the Disable-DFResponsUser CMDlet.
     $ADObject | Disable-DFResponsUser
@@ -57,7 +57,7 @@
         organization : Them Crooked Vultures, Foo Fighters
         disabled     : True
     }
-    
+
     .EXAMPLE
     # Here we create an array that contains a number of user Id's
     $Array = @(
@@ -65,7 +65,7 @@
         '67',
         '90'
     )
-    
+
     # The array is piped into a foreach loop that will iterate and disable each user connected to the Id's
 
     $Array | Foreach-Object {Disable-DFResponsUser -Id $_}
@@ -75,7 +75,7 @@
     #>
 
     [CmdletBinding()]
-    
+
     param (
         # Id of the user that will be disabled
         [Parameter(
@@ -95,15 +95,15 @@
         [string]
         $SamAccountName
     )
-    
+
     begin {
         $Body = [ordered]@{
             Disabled = $true
         }
     }
-    
+
     process {
-        
+
         switch ($PSCmdlet.ParameterSetName) {
             Id {
                 $RequestParams = Format-APICall -Property DisableUser -Id $Id -InputObject $Body
@@ -121,7 +121,7 @@
 
         $Response = Invoke-DFResponsAPI @InvokeParams
     }
-    
+
     end {
         return $Response
         # return $InvokeParams

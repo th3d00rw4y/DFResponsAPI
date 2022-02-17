@@ -57,7 +57,7 @@ function Format-APICall {
         [Parameter(
             Mandatory = $false,
             ParameterSetName = 'Id'
-        )] 
+        )]
         [Parameter(
             Mandatory = $false,
             ParameterSetName = 'Hashtable'
@@ -77,7 +77,7 @@ function Format-APICall {
         [string]
         $Server = $Settings.Server
     )
-    
+
     begin {
 
         $RequestParams = switch ($Property) {
@@ -154,13 +154,13 @@ function Format-APICall {
             }
         }
     }
-    
+
     process {
-       
+
     }
-    
+
     end {
-        return $RequestParams 
+        return $RequestParams
     }
 }
 # End function.

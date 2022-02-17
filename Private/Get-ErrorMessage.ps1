@@ -8,11 +8,11 @@ function Get-ErrorMessage {
         [PSCustomobject]
         $ErrorObject
     )
-    
+
     begin {
-        
+
     }
-    
+
     process {
         if ($ErrorObject.errors) {
             $ReturnError = [PSCustomObject]@{
@@ -26,7 +26,7 @@ function Get-ErrorMessage {
             }
         }
     }
-    
+
     end {
         return $ReturnError
     }

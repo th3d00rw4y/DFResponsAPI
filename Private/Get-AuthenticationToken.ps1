@@ -1,6 +1,7 @@
 function Get-AuthenticationToken() {
 
 	[CmdletBinding()]
+	[OutputType([System.String])]
 
 	param (
 		# Credential object

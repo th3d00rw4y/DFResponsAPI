@@ -10,7 +10,7 @@
 * [Usage](#usage)
 * [Changelog](#Changelog)
 * [Roadmap](#roadmap)
-* [License](License.md)
+* [License](/License)
 * [Acknowledgements](#acknowledgements)
 
 
@@ -100,13 +100,8 @@ Please make sure you've followed each one.
 <!-- ROADMAP -->
 ## Roadmap
 
- - [x] Adding compability for handling VLANs
-
- - [x] Adding compability for handling Networks
-
- - [x] Adding compability for handling users
-
+ - [x] Adding compability for working with datasource
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
-Digital Fox [Digital Fox](https://digitalfox.se)
+[Digital Fox](https://digitalfox.se) for great API documentation.
