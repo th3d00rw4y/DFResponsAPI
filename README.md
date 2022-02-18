@@ -46,9 +46,10 @@ Please make sure you've followed each one.
 
 ## Changelog
 `DFResponsAPI` is currently only maintained by me. I will try to add as many features as possible.
+- ## 2022.02.18 - Version 0.0.1.7
+    - [x] Published module in the [PSGallery](https://www.powershellgallery.com)
 - ## 2022.02.17 - Version 0.0.1.6
     - [x] Various fixes and cleanup in functions.
-    - [x] Published module in the [PSGallery](https://www.powershellgallery.com)
 - ## 2022.02.16 - Version 0.0.1.5
     - [x] Wrote help docs for all public cmdlets.
 - ## 2022.02.15 - Version 0.0.1.4
