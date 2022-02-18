@@ -101,6 +101,7 @@ Please make sure you've followed each one.
 ## Roadmap
 
  - [x] Adding compability for working with datasource
+ - [x] Improve error message handling
 
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
