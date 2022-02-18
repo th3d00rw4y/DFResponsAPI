@@ -15,8 +15,9 @@ else {
 
 $Private = @(Get-ChildItem -Path $ModuleRoot\Private\*.ps1 -ErrorAction SilentlyContinue)
 $Public  = @(Get-ChildItem -Path $ModuleRoot\Public\*.ps1 -ErrorAction SilentlyContinue)
+$Nested  = @(Get-ChildItem -Path $ModuleRoot\Resources\SecretClixml\Public\*.ps1 -ErrorAction SilentlyContinue)
 
-foreach ($Import in @($Private + $Public)) {
+foreach ($Import in @($Private + $Public + $Nested)) {
     try {
         . $Import.FullName
     }
@@ -26,7 +27,7 @@ foreach ($Import in @($Private + $Public)) {
 }
 
 Export-ModuleMember -Function $Public.Basename
-Export-ModuleMember -Function "New-Secret", "Get-Secret"
+Export-ModuleMember -Function $Nested.Basename
 
 if ($SettingsFileExists -eq $true) {
     Export-ModuleMember -Variable Settings, ADProperties
