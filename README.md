@@ -46,6 +46,15 @@ Please make sure you've followed each one.
 
 ## Changelog
 `DFResponsAPI` is currently only maintained by me. I will try to add as many features as possible.
+- ## 2022.03.04 - Version 0.0.1.8
+    - Rewritten the sync cmdlet for better comparison between AD and DFRespons properties
+    - New private functions:
+        - [x] `Get-SyncData`
+            - Better comparison between user objects that are returned to `Sync-DFResponsFromADGroup`
+        - [x] `Write-CMTLog`
+            - Writes a log file from `Sync-DFResponsFromADGroup` in CMTrace format.
+        - [x] `Write-StartEndLog`
+            - Writes either a starting or ending log entry.
 - ## 2022.02.18 - Version 0.0.1.7
     - [x] Published module in the [PSGallery](https://www.powershellgallery.com/packages/DFResponsAPI)
 - ## 2022.02.17 - Version 0.0.1.6

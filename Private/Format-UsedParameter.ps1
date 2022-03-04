@@ -23,6 +23,9 @@ function Format-UsedParameter {
     begin {
         # $UsedParameters = New-Object -TypeName PSCustomObject
         $UsedParameters = [PSCustomObject][ordered]@{}
+        <# $attributeMapping = @(
+            @{"property"="Enhetskoder"; "value"=$ADObject.Organization}
+        ) #>
     }
 
     process {
@@ -74,6 +77,7 @@ function Format-UsedParameter {
 
         $Body = @{}
         $UsedParameters.psobject.Properties | ForEach-Object {$Body[$_.Name] = $_.Value}
+        # $Body | Add-Member -MemberType NoteProperty -Name "attributeMapping" -Value $attributeMapping
     }
 
     end {

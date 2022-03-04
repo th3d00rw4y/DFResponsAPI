@@ -69,7 +69,13 @@ function Invoke-DFResponsAPI {
     }
 
     end {
+        if ($Response.results) {
+            return $Response.results
+        }
+        else {
+            return $Response
+        }
         # return $InvokeParams
-        return $Response
+        # return $Response
     }
 }

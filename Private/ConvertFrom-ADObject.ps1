@@ -31,6 +31,9 @@ function ConvertFrom-ADObject {
             Phone = ""
             Cellphone = ""
             Disabled = "False"
+            <# attributeMapping = @(
+                @{"property"="Enhetskoder"; "value"="$($ADObject.Organization)"}
+            ) #>
         }
         # $UsedParameters = New-Object -TypeName PSCustomObject -Property ([ordered]@{})
     }

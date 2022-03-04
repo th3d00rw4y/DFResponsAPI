@@ -1,7 +1,7 @@
 ﻿function Sync-DFResponsFromADGroup {
     <#
     .SYNOPSIS
-    Synchronize DFrespons from an AD group.
+    Synchronize DFRespons from an AD group.
 
     .DESCRIPTION
     This CMDlet will synchronize the DFRespons system with an AD group. It will check each value provided in $ADProperties and update values that differ.
@@ -29,10 +29,18 @@
         # Path to file holding accounts you want to exclude from the synchronization. Exclusion is based on Username in DFRespons.
         [Parameter()]
         [string]
-        $PathToExcludedAccountsFile
+        $PathToExcludedAccountsFile = "C:\TMP\Secrets\DFResponsExcludedAccounts.txt",
+
+        # Log file path
+        [Parameter()]
+        [string]
+        $LogFilePath = "C:\TMP\DFResponsLog.log"
     )
 
     begin {
+
+        $Component = $MyInvocation.MyCommand
+        Write-StartEndLog -Action Start -LogFilePath $LogFilePath
 
         # Checking that provided ADGroup actually exists.
         $ADGroupExists = try {
@@ -45,7 +53,7 @@
         }
 
         # Getting all current users in DFRespons
-        $CurrentDFResponsUsers = Get-DFResponsUser -All -PageSize 4000 | Select-Object -ExpandProperty results
+        $CurrentDFResponsUsers = Get-DFResponsUser -All -PageSize 2000
 
         # Getting all accounts that are to be excluded from the synchronization.
         $ExcludedAccounts = Get-Content -Path $PathToExcludedAccountsFile
@@ -57,7 +65,7 @@
             True  {
 
                 # Retreiving all users that are member of provided group.
-                $ADGroupMembers = Get-ADGroupMember -Identity $ADGroup
+                $ADGroupMembers = Get-ADGroupMember -Identity $ADGroup -Recursive
 
                 # Formatting each AD user to match with object structure in DFRespons.
                 $ADUsersFormatted = foreach ($GroupMember in $ADGroupMembers) {
@@ -65,76 +73,50 @@
                 }
 
                 # Comparing AD group members with current DFRespons users to see if there are any changes to be made.
-                $UsersToUpdate = foreach ($item in $ADUsersFormatted) {
+                $UsersToUpdate = Get-SyncData -CurrentDFResponsUsers $CurrentDFResponsUsers -InputObject $ADUsersFormatted -ExcludedAccounts $ExcludedAccounts
 
-                    $TMP = $CurrentDFResponsUsers | Where-Object {$_.username -eq $item.username}
-
-                    # Compare user
-                    try {
-                        $Compare = Compare-Object -ReferenceObject $item -DifferenceObject $TMP -Compact -ErrorAction SilentlyContinue
-                    }
-                    catch {
-                        Write-Error $_.Exception.Message
-                    }
-
-                    if ($Compare) {
-
-                        $TempHash = [PSCustomObject][ordered]@{}
-
-                        # Identifying what properties that differ
-                        foreach ($Found in $Compare) {
-                            switch ($Found.Property) {
-                                Email        {$TempHash | Add-Member -MemberType NoteProperty -Name 'Email' -Value $Found.ReferenceValue}
-                                Title        {$TempHash | Add-Member -MemberType NoteProperty -Name 'Title' -Value $Found.ReferenceValue}
-                                Organization {$TempHash | Add-Member -MemberType NoteProperty -Name 'Organization' -Value $Found.ReferenceValue}
-                                Phone        {$TempHash | Add-Member -MemberType NoteProperty -Name 'Phone' -Value $Found.ReferenceValue}
-                                CellPhone    {$TempHash | Add-Member -MemberType NoteProperty -Name 'CellPhone' -Value $Found.ReferenceValue}
-                            }
-                        }
-
-                        if ($TempHash | get-member | Where-Object {$_.MemberType -contains 'NoteProperty'}) {
-
-                            foreach ($Property in ($TempHash | get-member | Where-Object {$_.MemberType -contains 'NoteProperty'})) {
-                                if (-not ($TempHash.$($Property.Name).Length -gt 0)) {
-                                    $TempHash.$($Property.Name) = ""
+                switch ($UsersToUpdate) {
+                    
+                    {$_.StatusChanges} {
+                        foreach ($Change in $_.StatusChanges) {
+                            switch ($Change.action) {
+                                Update {
+                                    switch ($Change.disabled) {
+                                        False  {
+                                            Enable-DFResponsUser -SamAccountName $Change.username
+                                            # $ReturnHash.Enabled = $Change.email
+                                            Write-CMTLog -Message "Username: $($Change.username) has been enabled" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                        }
+                                        True {
+                                            Disable-DFResponsUser -SamAccountName $Change.username
+                                            # Clear-DFResponsUser -Email $Change.email
+                                            # $ReturnHash.Disabled = $Change.email
+                                            Write-CMTLog -Message "Username: $($Change.username) has been disabled and user properties cleared." -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                        }
+                                    }
+                                }
+                                New {
+                                    $NewDFResponsUser = Get-ADUser $Change.username -Properties $ADProperties | New-DFResponsUser
+                                    Write-CMTLog -Message "User created: id = $($NewDFResponsUser.id) - email = $($NewDFResponsUser.email) - samaccountname = $($NewDFResponsUser.username)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                    Clear-Variable NewDFResponsUser
                                 }
                             }
-
-                            $TempHash | Add-Member -MemberType NoteProperty -Name 'SamAccountName' -Value $TMP.username
-
-                            $TempHash | Update-DFResponsUser
                         }
-
-                        Clear-Variable Compare, TempHash, TMP
                     }
-                }
+                    {$_.Updates} {
 
-                # Comparing AD users with DFRespons users to see if any accounts are to be enabled/disabled
-                try {
-                    $UserCompare = Compare-Object -ReferenceObject $CurrentDFResponsUsers.username -DifferenceObject $ADUsersFormatted.Username -IncludeEqual -ErrorAction SilentlyContinue | Where-Object {$_.InputObject -notin $ExcludedAccounts}
-                }
-                catch {
-                    Write-Error $_.Exception.Message
-                }
+                        foreach ($item in $_.Updates) {
 
-                if ($UserCompare) {
+                            if ((Get-DFResponsUser -Id $item.id).disabled -eq $false) {
+                                
+                                $UpdateParams = @{}
+                                $item.psobject.Properties | ForEach-Object {$UpdateParams[$_.Name] = $_.Value}
+                                # Write-Host "Hoppp!" -ForegroundColor Red
+                                Update-DFResponsUser @UpdateParams
+                                # $ReturnHash.Updates = $item.id
 
-                    $UserChanges = foreach ($ComparedUser in $UserCompare) {
-                        switch ($ComparedUser) {
-                            # If '=>' a new user will be created
-                            {$_.SideIndicator -eq '=>'} {Get-ADUser -Identity $ComparedUser.InputObject -Properties $ADProperties | New-DFResponsUser}
-
-                            # If '<=', user has been removed from AD group and will therefore be disabled in DFRespons.
-                            {$_.SideIndicator -eq '<='} {
-                                if (($CurrentDFResponsUsers | Where-Object {$_.username -eq $ComparedUser.InputObject}).disabled -eq $false) {
-                                    Disable-DFResponsUser -SamAccountName $ComparedUser.InputObject
-                                }
-                            }
-
-                            # If '==' and user is set to Disabled within DFRespons, the user will be reenabled.
-                            {$_.SideIndicator -eq '=='} {
-                                if (($CurrentDFResponsUsers | Where-Object {$_.username -eq $ComparedUser.InputObject}).disabled -eq $true) {
-                                    Enable-DFResponsUser -SamAccountName $ComparedUser.InputObject
+                                foreach ($Property in $item.psobject.Properties | Where-Object {($_.Name -ne 'id') -and ($_.Name -ne 'samaccountname')}) {
+                                    Write-CMTLog -Message "User: $($item.samaccountname) has been updated with $($Property.Name) = $($Property.Value)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
                                 }
                             }
                         }
@@ -143,14 +125,10 @@
             }
             False {}
         }
-
-        $ReturnHash = @()
-        $ReturnHash += $UsersToUpdate
-        $ReturnHash += $UserChanges
     }
 
     end {
-        return $ReturnHash
+        Write-StartEndLog -Action Stop -LogFilePath $LogFilePath
     }
 }
 # End function.
