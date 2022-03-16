@@ -116,7 +116,13 @@
                                 # $ReturnHash.Updates = $item.id
 
                                 foreach ($Property in $item.psobject.Properties | Where-Object {($_.Name -ne 'id') -and ($_.Name -ne 'samaccountname')}) {
-                                    Write-CMTLog -Message "User: $($item.samaccountname) has been updated with $($Property.Name) = $($Property.Value)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+
+                                    if ($Property.Name -eq 'attributeMapping') {
+                                        Write-CMTLog -Message "User: $($item.samaccountname) has been updated with $($Property.Name) = $($UpdateParams.attributeMapping.Value)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                    }
+                                    else {
+                                        Write-CMTLog -Message "User: $($item.samaccountname) has been updated with $($Property.Name) = $($Property.Value)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                    }
                                 }
                             }
                         }

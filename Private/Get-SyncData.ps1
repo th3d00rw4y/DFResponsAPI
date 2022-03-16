@@ -47,6 +47,7 @@ function Get-SyncData {
                                 Organization {$TempHash | Add-Member -MemberType NoteProperty -Name 'Organization' -Value $Found.ReferenceValue}
                                 Phone        {$TempHash | Add-Member -MemberType NoteProperty -Name 'Phone' -Value $Found.ReferenceValue}
                                 CellPhone    {$TempHash | Add-Member -MemberType NoteProperty -Name 'CellPhone' -Value $Found.ReferenceValue}
+                                attributeMapping {$TempHash | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $Found.ReferenceValue}
                             }
                         }
         
@@ -70,7 +71,7 @@ function Get-SyncData {
                             # Update-DFResponsUser @UpdateParams
         
                             $TempHash
-                            Clear-Variable Compare, TempHash, DFResponsObject
+                            # Clear-Variable Compare, TempHash, DFResponsObject
                         }
                     }
                 }

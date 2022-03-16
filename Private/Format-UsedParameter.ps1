@@ -33,7 +33,7 @@ function Format-UsedParameter {
         switch ($SetName) {
             ManualSet {
 
-                $TMPHash = foreach ($key in $InputObject) {
+                $Global:TMPHash = foreach ($key in $InputObject) {
                     $value = (get-variable $key).Value
                     @{
                         "$key" = "$value"
@@ -55,6 +55,7 @@ function Format-UsedParameter {
                         Phone          {$UsedParameters | Add-Member -MemberType NoteProperty -Name 'Phone' -Value $item.Phone}
                         Cellphone      {$UsedParameters | Add-Member -MemberType NoteProperty -Name 'CellPhone' -Value $item.Cellphone}
                         Organization   {$UsedParameters | Add-Member -MemberType NoteProperty -Name 'Organization' -Value $item.Organization}
+                        attributeMapping {$UsedParameters | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $item.attributeMapping}
                     }
                 }
             }

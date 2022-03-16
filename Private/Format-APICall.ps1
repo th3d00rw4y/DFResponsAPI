@@ -86,20 +86,20 @@ function Format-APICall {
                 switch ($All) {
                     True {
                         @{
-                            RequestString = "$Server/user?pagesize=$PageSize"
+                            RequestString = "$Server/user?pagesize=$PageSize&returnExtent=15"
                             Method        = "GET"
                         }
                     }
                     False {
                         if ($Id) {
                             @{
-                                RequestString = "$Server/user/$Id"
+                                RequestString = "$Server/user/$($Id)?returnExtent=15"
                                 Method        = "GET"
                             }
                         }
                         elseif ($SamAccountName) {
                             @{
-                                RequestString = "$Server/user/$SamAccountName"
+                                RequestString = "$Server/user/$($SamAccountName)?returnExtent=15"
                                 Method        = "GET"
                             }
                         }
@@ -156,7 +156,7 @@ function Format-APICall {
     }
 
     process {
-
+        # Write-Host $RequestParams.RequestString -ForegroundColor Green
     }
 
     end {

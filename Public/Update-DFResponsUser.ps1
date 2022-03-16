@@ -148,6 +148,15 @@
         [string]
         $Organization,
 
+        # Attribute mapping of user
+        [Parameter(
+            Mandatory                       = $false,
+            ParameterSetName                = 'ManualSet',
+            ValueFromPipelineByPropertyName = $true
+        )]
+        [System.Object]
+        $attributeMapping,
+
         # Object containing all properties required for user creation.
         [Parameter(
             Mandatory         = $true,
@@ -178,6 +187,9 @@
 
             ManualSet {
                 $UsedParameters = Format-UsedParameter -SetName ManualSet -InputObject $Parameters
+                if ($attributeMapping) {
+                    $UsedParameters.attributeMapping = $attributeMapping
+                }
             }
             ObjectSet {
                 $UsedParameters = ConvertFrom-ADObject -ADObject $ADObject
@@ -185,7 +197,7 @@
             }
             OnlySamAccountName {
                 $ADObject = Get-ADUser -Identity $OnlySamAccountName -Properties $ADProperties
-                $UsedParameters = ConvertFrom-ADObject -ADObject $ADObject
+                [System.Collections.Specialized.OrderedDictionary]$UsedParameters = ConvertFrom-ADObject -ADObject $ADObject
                 # $UsedParameters = Format-UsedParameter -SetName OnlySamAccountName -InputObject $ADObject
             }
         }
@@ -204,5 +216,6 @@
     end {
         return $Response
         # return $InvokeParams
+        # return $UsedParameters
     }
 }
