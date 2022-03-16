@@ -38,6 +38,25 @@ function Get-SyncData {
 
                     if ($Compare) {
                         $TempHash = [PSCustomObject][ordered]@{}
+
+                        try {
+                            $CompareAttrib = Compare-Object -ReferenceObject $ADObject.attributeMapping.value -DifferenceObject $DFResponsObject.attributeMapping.value -Compact -ErrorAction SilentlyContinue
+                        }
+                        catch {
+                            $AttribExists = $false
+                            # Write-CMTLog -Message $_.Exception.Message -LogLevel Error -Component $Component -LogFilePath $LogFilePath
+                        }
+
+                        if ($attribExists -eq $false) {
+                            $TempHash | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $ADObject.attributeMapping
+
+                            Clear-Variable CompareAttrib
+                        }
+                        elseif ($CompareAttrib.SideIndicator -contains '<=') {
+                            $TempHash | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $ADObject.attributeMapping
+
+                            Clear-Variable CompareAttrib
+                        }
             
                         # Identifying what properties that differ
                         foreach ($Found in $Compare) {
@@ -47,7 +66,7 @@ function Get-SyncData {
                                 Organization {$TempHash | Add-Member -MemberType NoteProperty -Name 'Organization' -Value $Found.ReferenceValue}
                                 Phone        {$TempHash | Add-Member -MemberType NoteProperty -Name 'Phone' -Value $Found.ReferenceValue}
                                 CellPhone    {$TempHash | Add-Member -MemberType NoteProperty -Name 'CellPhone' -Value $Found.ReferenceValue}
-                                attributeMapping {$TempHash | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $Found.ReferenceValue}
+                                # attributeMapping {$TempHash | Add-Member -MemberType NoteProperty -Name 'attributeMapping' -Value $Found.ReferenceValue}
                             }
                         }
         
@@ -71,7 +90,7 @@ function Get-SyncData {
                             # Update-DFResponsUser @UpdateParams
         
                             $TempHash
-                            # Clear-Variable Compare, TempHash, DFResponsObject
+                            Clear-Variable Compare, TempHash, DFResponsObject
                         }
                     }
                 }

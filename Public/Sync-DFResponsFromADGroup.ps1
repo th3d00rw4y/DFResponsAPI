@@ -110,7 +110,14 @@
                             if ((Get-DFResponsUser -Id $item.id).disabled -eq $false) {
                                 
                                 $UpdateParams = @{}
-                                $item.psobject.Properties | ForEach-Object {$UpdateParams[$_.Name] = $_.Value}
+                                $item.psobject.Properties | ForEach-Object {
+                                    if ($_.Name -eq 'attributeMapping') {
+                                        $UpdateParams[$_.Name] = @($_.Value)
+                                    }
+                                    else {
+                                        $UpdateParams[$_.Name] = $_.Value
+                                    }
+                                }
                                 # Write-Host "Hoppp!" -ForegroundColor Red
                                 Update-DFResponsUser @UpdateParams
                                 # $ReturnHash.Updates = $item.id
