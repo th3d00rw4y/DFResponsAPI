@@ -97,7 +97,7 @@
                                 }
                                 New {
                                     $NewDFResponsUser = Get-ADUser $Change.username -Properties $ADProperties | New-DFResponsUser
-                                    Write-CMTLog -Message "User created: id = $($NewDFResponsUser.id) - email = $($NewDFResponsUser.email) - samaccountname = $($NewDFResponsUser.username)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
+                                    Write-CMTLog -Message "User created: id = $($NewDFResponsUser.user.id) - email = $($NewDFResponsUser.user.email) - samaccountname = $($NewDFResponsUser.user.username)" -LogLevel Normal -Component $Component -LogFilePath $LogFilePath
                                     Clear-Variable NewDFResponsUser
                                 }
                             }
